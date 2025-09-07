@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+* {
+  background: none; 
+  background-color: transparent;
+
+  
+}
