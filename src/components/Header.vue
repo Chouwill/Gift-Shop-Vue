@@ -85,3 +85,10 @@ function handleChange() {
     </div>
   </header>
 </template>
+
+<style scoped>
+* {
+  background: none !important;  
+  background-color: transparent !important;
+}
+</style>
