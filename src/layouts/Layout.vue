@@ -10,6 +10,8 @@ import Footer from '../components/Footer.vue';
 
 <div class="container-layout w-full  flex justify-center 	">
     <Header />
+
+    <router-view />
     <!-- <Footer /> -->
 </div>
 </template>

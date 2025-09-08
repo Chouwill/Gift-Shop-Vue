@@ -80,8 +80,8 @@ function handleChange() {
     <div
       class="menu-link w-full hidden md:flex justify-center items-center gap-10"
     >
-      <a href="#">Home</a>
-      <a href="#">Sale</a>
+      <router-link to="/">首頁</router-link>
+      <router-link to="/shop">商城</router-link>
     </div>
   </header>
 </template>
