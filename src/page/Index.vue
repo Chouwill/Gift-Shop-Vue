@@ -4,7 +4,9 @@ import HeroBanner from "../components/IndexPage/HeroBanner.vue";
 import CategoryHighlight from "../components/IndexPage/CategoryHighlight.vue";
 
 import CategoryGrid from "../components/IndexPage/CategoryGrid.vue";
+import LookCarousel from "../components/IndexPage/LookCarousel.vue";
 import { useProductStore } from "../store/Products";
+
 const productStore = useProductStore();
 
 onMounted(async () => {
@@ -18,6 +20,7 @@ onMounted(async () => {
     <HeroBanner />
     <CategoryHighlight />
     <CategoryGrid :card="productStore.products" :key="productStore.products" />
+    <LookCarousel :card="productStore.products" :key="productStore.products"/>
     <!-- <h2>首頁</h2> -->
   </div>
 </template>
