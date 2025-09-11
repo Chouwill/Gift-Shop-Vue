@@ -16,7 +16,10 @@ const computedItems = computed(() => {
 
 <template>
   <div class="carousel-box w-full">
-    <h2 class="text-center w-full text-5xl my-4">Look PPC</h2>
+    <div class="text-center flex justify-center items-center gap-5 w-full  my-4">
+      <h2 class="text-4xl">Look</h2>
+      <h2 class="text-4xl">PPC</h2>
+    </div>
 
     <div
       class="carousel flex gap-4 w-full overflow-x-hidden md:overflow-x-visible"
