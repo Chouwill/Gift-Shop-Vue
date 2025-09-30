@@ -1,7 +1,10 @@
 <script setup>
-import { FwbAlert } from "flowbite-vue";
 import { ref } from "vue";
+import { FwbInput } from "flowbite-vue";
+import { FwbButton } from "flowbite-vue";
+
 import { FwbSelect } from "flowbite-vue";
+const name = ref("");
 
 const selected = ref("");
 const countries = [
@@ -12,17 +15,56 @@ const countries = [
 </script>
 
 <template>
-  <div class="filter-container">
-    <fwb-alert type="success">
-      Success! You can now use Flowbite Vue in your Vue application 🎉
-    </fwb-alert>
+  <div class="filter-container w-full">
+    <div
+      class="filter-box border border-red-300 m-auto w-[100%] flex flex-wrap gap-5 justify-center items-center py-4md:flex md:flex-nowrap"
+    >
+      <div
+        class="flex md:w-[50%] mt-3 justify-center items-center gap-4 mx-auto border border-green-300"
+      >
+        <fwb-input
+          v-model="name"
+          placeholder=""
+          label="搜尋商品"
+          class="md:w-260px w-[171px]"
+        />
+        <fwb-select
+          v-model="selected"
+          :options="countries"
+          label="分類"
+          class="md:w-[260px] w-[171px]"
+        />
+      </div>
+      <div
+        class="flex md:w-[50%] mt-3 justify-center items-center gap-4 mx-auto border border-green-300"
+      >
+        <fwb-input
+          v-model="name"
+          placeholder=""
+          label="最低價"
+          class="md:w-260px w-[171px]"
+        />
+        <fwb-input
+          v-model="selected"
+          :options="countries"
+          label="最高價"
+          class="md:w-[260px] w-[171px]"
+        />
+      </div>
 
-    <fwb-select
-      v-model="selected"
-      :options="countries"
-      label="Select a country"
-      size="md"
-      class="w-[200px] bg-red-900"
-    />
+      <div class="w-[30%] md:mt-10 flex justify-start items-center border">
+        <fwb-button
+          color="Light"
+          class="md:[130px]my-auto  text-center rounded-md bg-[#EAEAEA] text-black hover:opacity-80"
+          >清除全部</fwb-button
+        >
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+*{
+  /* border: none !important; */
+}
+</style>
