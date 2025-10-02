@@ -20,7 +20,7 @@ onMounted(async () => {
     <HeroBanner />
     <CategoryHighlight />
     <CategoryGrid :card="productStore.products" :key="productStore.products" />
-    <LookCarousel :card="productStore.products" :key="productStore.products"/>
+    <LookCarousel :card="productStore.products" :key="productStore.products" />
     <!-- <h2>首頁</h2> -->
   </div>
 </template>
