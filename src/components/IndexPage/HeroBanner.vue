@@ -2,7 +2,7 @@
 
 <template>
   <div
-    class="banner-box w-full flex flex-col md:flex-row my-5 bg-[#D3BBDD]  md:min-h-[700px] items-stretch"
+    class="banner-box w-full flex flex-col md:flex-row my-5 bg-[#EFEFEF]  md:min-h-[700px] items-stretch"
   >
     <!-- 左側文字 -->
     <div class="banner-title flex-1 flex flex-col justify-center items-center p-6">

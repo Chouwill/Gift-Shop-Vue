@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import cutAfterDot from "../../util/price"
+import cutAfterDot from "../../util/price";
 
 const propsItems = defineProps(["card"]);
 
@@ -22,7 +22,7 @@ const selectGrid = computed(() => {
 
 <template>
   <div
-    class="category-grid-box  w-full mt-15 flex-col  flex md:flex-wrap justify-center items-center"
+    class="category-grid-box w-full mt-15 flex-col flex md:flex-wrap justify-center items-center"
   >
     <div
       class="grid-box mt-5 md:m-0 w-full md:w-[956px] flex flex-col md:flex-row md:flex-wrap md:odd:flex-row-reverse"
@@ -30,13 +30,13 @@ const selectGrid = computed(() => {
       :key="item.id"
     >
       <div
-        class="md:w-1/2 flex justify-center items-center  md:flex-col bg-[#E9E1F4] h-[478px]"
+        class="md:w-1/2 flex justify-center items-center md:flex-col bg-[#F5F5F5] h-[478px]"
       >
         <h2 class="text-center">{{ item.name }}</h2>
         <br />
-        <h2 class="text-center">${{ cutAfterDot(item.price )}}</h2>
+        <h2 class="text-center">${{ cutAfterDot(item.price) }}</h2>
       </div>
-      <div class="md:w-1/2 bg-[#F6F2FC] h-[478px]">
+      <div class="md:w-1/2 bg-[#EFEFEF] h-[478px]">
         <img class="object-cover w-full h-full" :src="item.image_url" alt="" />
       </div>
 

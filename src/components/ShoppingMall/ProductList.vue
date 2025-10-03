@@ -25,7 +25,7 @@ const propsItems = defineProps({
         <h2 class="text-center">{{ item.name }}</h2>
         <h2 class="text-center">{{ item.price }}</h2>
         <fwb-button
-          class="w-full bg-[#1E293B] text-white flex justify-center items-center py-3 rounded-none"
+          class="w-full h-[40px] bg-transparent text-[#1b4332] shadow-[0_4px_10px_rgba(0,0,0,0.7)] text-sm font-semibold cursor-pointer transition-all duration-200 ease-in-out flex justify-center items-center rounded-none hover:bg-[#1b4332] hover:text-white"
         >
           <template #prefix>
             <svg
@@ -45,3 +45,23 @@ const propsItems = defineProps({
     </div>
   </div>
 </template>
+
+<style>
+.btn-cart {
+  margin-top: 10px;
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: 1.5px solid #1b4332; /* 品牌色框線 */
+  color: #1b4332;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-cart:hover {
+  background: #1b4332; /* hover 才整塊變色 */
+  color: #fff;
+}
+</style>
