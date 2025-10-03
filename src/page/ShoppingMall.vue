@@ -19,7 +19,8 @@ async function getProducts() {
   countStore.fetchProducts();
   const products = await countStore.fetchProducts();
 
-  console.log("測試ＯＰＴ", countStore.allProducts);
+  productsLists.value = countStore.allProducts;
+  console.log("測試ＯＰＴ2", productsLists.value);
 }
 
 getProducts();
@@ -28,6 +29,6 @@ getProducts();
 <template>
   <div class="md:w-[1200px] border mx-auto my-5">
     <ShopFilter />
-    <ProductList />
+    <ProductList :productsLists/>
   </div>
 </template>
