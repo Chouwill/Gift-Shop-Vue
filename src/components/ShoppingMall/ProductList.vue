@@ -10,7 +10,7 @@ const propsItems = defineProps({
 <template>
   <div class="list-box w-[100%] border flex flex-col">
     <div
-      class="w-full border flex flex-wrap justify-center items-center gap-4 py-5"
+      class="w-full border-[3px] border-green-200 flex flex-wrap justify-center items-center gap-4 py-5"
     >
       <div
         class="flex flex-col gap-1 bg-white-500 w-[200px] rounded-sm border border-gray-200 shadow-lg hover:scale-105"

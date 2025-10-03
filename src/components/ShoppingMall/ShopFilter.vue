@@ -17,10 +17,10 @@ const countries = [
 <template>
   <div class="filter-container w-full">
     <div
-      class="filter-box border border-red-300 m-auto w-[100%] flex flex-wrap gap-5 justify-center items-center py-4md:flex md:flex-nowrap"
+      class="filter-box border border-red-300 m-auto w-[90%] flex flex-wrap gap-2 justify-center items-center py-4md:flex md:flex-nowrap"
     >
       <div
-        class="flex md:w-[50%] mt-3 justify-center items-center gap-4 mx-auto border border-green-300"
+        class="flex md:w-[45%] mt-3 justify-center items-center gap-4 mx-auto border border-green-300"
       >
         <fwb-input
           v-model="name"
@@ -36,7 +36,7 @@ const countries = [
         />
       </div>
       <div
-        class="flex md:w-[50%] mt-3 justify-center items-center gap-4 mx-auto border border-green-300"
+        class="flex md:w-[45%] mt-3 justify-center items-center gap-4 mx-auto border border-green-300"
       >
         <fwb-input
           v-model="name"
@@ -52,10 +52,10 @@ const countries = [
         />
       </div>
 
-      <div class="w-[30%] md:mt-10 flex justify-start items-center border">
+      <div class="md:w-[10%] md:mt-10 flex justify-center items-center border">
         <fwb-button
           color="Light"
-          class="md:[130px]my-auto  text-center rounded-md bg-[#EAEAEA] text-black hover:opacity-80"
+          class="md:[130px]my-auto text-center rounded-md bg-[#EAEAEA] text-black hover:opacity-80"
           >清除全部</fwb-button
         >
       </div>
@@ -64,7 +64,7 @@ const countries = [
 </template>
 
 <style scoped>
-*{
+* {
   /* border: none !important; */
 }
 </style>
