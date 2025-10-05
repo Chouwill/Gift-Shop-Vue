@@ -4,7 +4,6 @@ import cutAfterDot from "../../util/price";
 
 const props = defineProps(["card"]);
 
-const cardItems = ref(props.card);
 
 const selectGrid = computed(() => {
   return Array.isArray(props.card)
