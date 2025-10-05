@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { getProducts } from "../api/method";
 
 export const useProductStore = defineStore("alerts", () => {
-  const products = ref([]);
+  const products = ref(null);
   async function fetchProducts() {
     try {
       const res = await getProducts();
@@ -13,7 +13,7 @@ export const useProductStore = defineStore("alerts", () => {
 
       products.value = res.data.items;
 
-      console.log("ref", products.value);
+      // console.log("ref", products.value);
     } catch (e) {
       console.log(e);
     }
