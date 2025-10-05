@@ -3,8 +3,8 @@ import { ref } from "vue";
 
 import { getProducts } from "../api/method";
 
-export const useProductStore = defineStore("products", () => {
-  const products = ref([]);
+export const useProductStore = defineStore("alerts", () => {
+  const products = ref(null);
   async function fetchProducts() {
     try {
       const res = await getProducts();
@@ -13,9 +13,9 @@ export const useProductStore = defineStore("products", () => {
 
       products.value = res.data.items;
 
-      return products.value;  // 為何這裡要return
+  
 
-      console.log("ref", products.value);
+      // console.log("ref", products.value);
     } catch (e) {
       console.log(e);
     }

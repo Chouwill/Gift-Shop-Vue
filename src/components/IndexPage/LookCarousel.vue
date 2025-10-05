@@ -1,9 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 
-const propsItems = defineProps(["card"]);
-
-const cardItems = ref(propsItems.card);
+const props = defineProps(["card"]);
 
 const page = ref(1);
 
@@ -25,12 +23,12 @@ function returnPage() {
   page.value--;
 }
 
-onMounted(() => {
-  console.log("props2", cardItems.value);
-});
+
 
 const computedItems = computed(() => {
-  return cardItems.value.slice(page.value - 1, page.value * itemsGroup);
+  return Array.isArray(props.card)
+    ? props.card.slice(page.value - 1, page.value * itemsGroup)
+    : [];
   //   return cardItems.value.slice(page - 1, page * itemsGroup);
 });
 

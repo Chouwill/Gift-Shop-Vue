@@ -9,18 +9,18 @@ import { useProductStore } from "../store/Products";
 
 const productStore = useProductStore();
 
-onMounted(async () => {
-  await productStore.fetchProducts();
-  console.log("[page] products length =", productStore.products.length); // 應該 > 0
-});
+ productStore.fetchProducts();
+ console.log(productStore.products);
+ 
+
 </script>
 
 <template>
   <div>
     <HeroBanner />
     <CategoryHighlight />
-    <CategoryGrid :card="productStore.products" :key="productStore.products" />
-    <LookCarousel :card="productStore.products" :key="productStore.products" />
+    <CategoryGrid :card="productStore.products" />
+    <LookCarousel :card="productStore.products" />
     <!-- <h2>首頁</h2> -->
   </div>
 </template>
