@@ -1,9 +1,11 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { FwbButton } from "flowbite-vue";
 
-const propsItems = defineProps({
-  productsLists: Array,
+const props = defineProps(["card"]);
+
+watchEffect(() => {
+  console.log("商城列表組件", props.card);
 });
 </script>
 
@@ -14,7 +16,7 @@ const propsItems = defineProps({
     >
       <div
         class="flex flex-col gap-1 bg-white-500 w-[200px] rounded-sm border border-gray-200 shadow-lg hover:scale-105"
-        v-for="item in propsItems.productsLists"
+        v-for="item in props.card"
         :key="item.id"
       >
         <img
