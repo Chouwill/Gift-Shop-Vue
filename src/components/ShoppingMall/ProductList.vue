@@ -2,32 +2,34 @@
 import { ref, watchEffect } from "vue";
 import { FwbButton } from "flowbite-vue";
 
-const props = defineProps(["card"]);
+const props = defineProps(["card","shoppingList"]);
 
 watchEffect(() => {
   console.log("商城列表組件", props.card);
+  console.log("購物車列表組件", props.shoppingList);
 });
 
-const cartLists = ref([]);
+
 
 function addCart(item) {
   console.log(item);
-  const findItem = cartLists.value.find((value) => value.itemId === item.id);
+  const findItem = props.shoppingList.find((value) => value.itemId === item.id);
 
   console.log(findItem);
 
   if (findItem) {
     findItem.itemQuantity += 1;
   } else {
-    cartLists.value.push({
+    props.shoppingList.push({
       itemId: item.id,
+      itemImage: item.image_url,
       itemName: item.name,
       itemPrice: item.price,
       itemQuantity: 1,
     });
   }
 
-  console.log(cartLists.value);
+  console.log(props.shoppingList);
 }
 </script>
 

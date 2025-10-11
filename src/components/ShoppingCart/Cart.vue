@@ -20,22 +20,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in cartItems" :key="item.name">
+            <tr v-for="item in list" :key="item.name">
               <th>
-                <img :src="item.img" alt="" />
+                <img :src="item.itemImage" alt="" />
               </th>
               <th>
                 <div
                   class="w-[100px] flex flex-col justify-center items-center gap-2 mx-auto border"
                 >
-                  <h2 class="text-sm">{{ item.name }}</h2>
+                  <h2 class="text-sm">{{ item.itemName }}</h2>
                   <div class="flex justify-center items-center gap-3">
                     <fwb-button
                       class="md:w-[40px] md:h-[40px] w-[30px] h-[30px] flex justify-center items-center"
                       color="default"
                       ><i class="fa-solid fa-minus"></i
                     ></fwb-button>
-                    <h2>{{ item.quantity }}</h2>
+                    <h2>{{ item.itemQuantity }}</h2>
                     <fwb-button
                       class="md:w-[40px] md:h-[40px] w-[30px] h-[30px] flex justify-center items-center"
                       color="default"
@@ -44,7 +44,7 @@
                   </div>
                 </div>
               </th>
-              <th>{{ item.price }}</th>
+              <th>{{ item.itemPrice}}</th>
             </tr>
           </tbody>
         </table>
@@ -54,7 +54,7 @@
           <tbody>
             <tr class="">
               <th>總計</th>
-              <th colspan="ㄉ">000</th>
+              <th colspan="2">000</th>
             </tr>
           </tbody>
         </table>
@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, onMounted, watch, watchEffect } from "vue";
 import {
   FwbButton,
   FwbModal,
@@ -76,125 +76,61 @@ import {
   FwbTableHeadCell,
   FwbTableRow,
 } from "flowbite-vue";
-const cartItems = [
-  {
-    name: 'Apple MacBook Pro 17"',
-    quantity: 1,
-    price: 2999,
-    img: "https://picsum.photos/seed/cart-0/96/96",
-  },
-  {
-    name: "Microsoft Surface Pro",
-    quantity: 5,
-    price: 1999,
-    img: "https://picsum.photos/seed/cart-1/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-2/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-3/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-4/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-5/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-6/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-7/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-8/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-9/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-10/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-11/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-12/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-13/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-14/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-15/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-16/96/96",
-  },
-  {
-    name: "Magic Mouse 2",
-    quantity: 6,
-    price: 7000,
-    img: "https://picsum.photos/seed/cart-17/96/96",
-  },
-];
+
+// const props = defineProps(["list"]);
+// 簡寫  v-for 就不用props.list 直接 list 渲染
+defineProps(["list"]);
+
+
+// watchEffect(()=>{
+// console.log("props",props.list);
+
+// })
+
+
 
 const isShowModal = ref(false);
 
 function closeModal() {
   isShowModal.value = false;
+  const body = document.querySelector("body");
+
+  console.log(body);
+  // const result = ;
+
+  if (body) {
+    console.log("有");
+    body.style.overflow = ""; // 空字串 ＝＝ 預設
+  } else {
+    console.log("無");
+  }
 }
 function showModal() {
   isShowModal.value = true;
+  const body = document.querySelector("body");
+
+  console.log(body);
+  // const result = ;
+
+  if (body) {
+    console.log("有");
+    body.style.overflow = "hidden";
+  } else {
+    console.log("無");
+  }
 }
+
+onMounted(() => {
+  // const body = document.querySelector("body");
+  // console.log(body);
+  // // const result = ;
+  // if (body) {
+  //   console.log("有");
+  //   body.style.overflow = "hidden";
+  // } else {
+  //   console.log("無");
+  // }
+});
 </script>
 
 <style scoped>
