@@ -7,6 +7,28 @@ const props = defineProps(["card"]);
 watchEffect(() => {
   console.log("商城列表組件", props.card);
 });
+
+const cartLists = ref([]);
+
+function addCart(item) {
+  console.log(item);
+  const findItem = cartLists.value.find((value) => value.itemId === item.id);
+
+  console.log(findItem);
+
+  if (findItem) {
+    findItem.itemQuantity += 1;
+  } else {
+    cartLists.value.push({
+      itemId: item.id,
+      itemName: item.name,
+      itemPrice: item.price,
+      itemQuantity: 1,
+    });
+  }
+
+  console.log(cartLists.value);
+}
 </script>
 
 <template>
@@ -27,6 +49,7 @@ watchEffect(() => {
         <h2 class="text-center">{{ item.name }}</h2>
         <h2 class="text-center">{{ item.price }}</h2>
         <fwb-button
+          @click="addCart(item)"
           class="w-full h-[40px] bg-transparent text-[#1b4332] shadow-[0_4px_10px_rgba(0,0,0,0.7)] text-sm font-semibold cursor-pointer transition-all duration-200 ease-in-out flex justify-center items-center rounded-none hover:bg-[#1b4332] hover:text-white"
         >
           <template #prefix>

@@ -5,7 +5,7 @@
 }
 
 * {
-border: none ;
+  border: none;
 }
 
 /* import Flowbite Vue styles */
@@ -16,3 +16,32 @@ border: none ;
 
 /* add Flowbite Vue directory using @source directive */
 @source "../node_modules/flowbite-vue";
+
+table {
+  /* border: 3px solid red; */
+}
+
+th,
+td {
+  width: 550px;
+  padding: 10px 0;
+  text-align: center !important;
+  border-radius: none !important;
+  /* border-bottom: 3px solid #000; */
+  /* border: 3px solid #000; */
+
+  height: 50px;
+}
+
+@media (min-width: 414px) and (max-width: 768px) {
+  /* 適用於寬度在 400px 到 500px (含) 之間的裝置 */
+  table,
+  th,
+  td {
+    width: 330px;
+    text-align: center !important;
+    border-radius: none !important;
+    /* border-bottom: 3px solid #000; */
+    height: 50px;
+  }
+}
