@@ -7,6 +7,21 @@
 * {
   border: none;
 }
+input[type="radio"] {
+  background-color: #d7dbe2;
+  width: 23px;
+  height: 23px;
+}
+/* input[type="radio"]:hover {
+  background-color: #165dfc;
+  width: 23px;
+  height: 23px;
+} */
+input[type="radio"]:active {
+  background-color: #165dfc;
+  width: 23px;
+  height: 23px;
+}
 
 /* import Flowbite Vue styles */
 @import "flowbite-vue/index.css";
