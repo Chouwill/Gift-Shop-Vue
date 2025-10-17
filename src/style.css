@@ -5,7 +5,7 @@
 }
 
 * {
-  border: none;
+  border: none !important;
 }
 input[type="radio"] {
   background-color: #d7dbe2;
@@ -59,4 +59,15 @@ td {
     /* border-bottom: 3px solid #000; */
     height: 50px;
   }
+}
+
+.PaymentTable {
+  width: 200px;
+  /* border: 3px solid red; */
+  margin: 19px 35px 2px;
+  text-align-last: left;
+}
+.PaymentTable td:nth-child(1) {
+  /* border-bottom: none; */
+  /* text-align-last: left; */
 }

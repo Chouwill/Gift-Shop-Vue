@@ -10,7 +10,8 @@ import {
 } from "flowbite-vue";
 import { getCoupons } from "../api/method";
 
-const picked = ref();
+const pickedCoupons = ref();
+const inputText = ref("");
 
 const isShowModal = ref(false);
 const Coupons = ref([]);
@@ -63,90 +64,221 @@ const couponDescriptions = [
   { code: "D99-1H", description: "99 折快閃券，限時 1 小時使用。" },
   { code: "FS1500-60D", description: "滿 1500 元免運，使用期限 60 天。" },
 ];
+
+function pickValue(value) {
+  console.log("被選中", value);
+}
+
+console.log("被選中", pickedCoupons.value);
+console.log("被選中", inputText.value);
+
+const cartItems = [
+  {
+    itemId: "gift-shopx00003",
+    itemImage: "https://picsum.photos/id/1011/200/200",
+    itemName: "極細自動鉛筆",
+    itemPrice: "25.00",
+    itemQuantity: 4,
+  },
+
+  {
+    itemId: "gift-shopx00035",
+    itemImage: "https://picsum.photos/id/1025/200/200",
+    itemName: "簡約陶瓷筆筒組",
+    itemPrice: "320.00",
+    itemQuantity: 1,
+  },
+  {
+    itemId: "gift-shopx00034",
+    itemImage: "https://picsum.photos/id/1026/200/200",
+    itemName: "庭園復古燈塔造型燈",
+    itemPrice: "2980.00",
+    itemQuantity: 1,
+  },
+  {
+    itemId: "gift-shopx00033",
+    itemImage: "https://picsum.photos/id/1027/200/200",
+    itemName: "復古雕花鎮紙台",
+    itemPrice: "1680.00",
+    itemQuantity: 3,
+  },
+  {
+    itemId: "gift-shopx00032",
+    itemImage: "https://picsum.photos/id/1028/200/200",
+    itemName: "經典真皮雙扣後背包",
+    itemPrice: "3280.00",
+    itemQuantity: 1,
+  },
+];
 </script>
 
 <template>
-  <div class="md:w-[1200px] !border mx-auto my-5">
-    <div class="payment-form !w-[700px] !border">
-      <h2>選擇優惠方式</h2>
-      <fwb-list-group>
-        <fwb-list-group-item>
-          <fwb-radio
-            v-model="picked"
-            label="會員點數折抵"
-            name="list-radio"
-            value="Svelte"
-            class="md:!w-[500px] border p-1 my-2 bg-amber-300"
-          />
-        </fwb-list-group-item>
-        <fwb-list-group-item>
-          <fwb-radio
-            v-model="picked"
-            label="優惠券"
-            name="list-radio"
-            value="Vue JS"
-            class="md:!w-[500px] border p-1 my-2 bg-amber-300"
+  <div
+    class="md:w-[900px] py-5 w-[90%] flex flex-wrap md:flex-row flex-col h-auto mx-auto my-7 shadow-2xl rounded-xl bg-[#eeeded]"
+  >
+    <div
+      class="select-option w-full !border-green-3px flex md:w-[50%] justify-center items-center flex-col gap-3"
+    >
+      <div class="payment-form w-[250px] md:w-[400px] border">
+        <h2>選擇優惠方式</h2>
+
+        <fwb-radio
+          v-model="picked"
+          label="會員點數折抵"
+          name="list-radio"
+          value="Svelte"
+          class="md:!w-[270px] w-full border p-1 my-2 bg-amber-300"
+        />
+
+        <fwb-radio
+          v-model="pickedCoupons"
+          label="優惠券"
+          name="list-radio"
+          value="Vue JS"
+          class="md:!w-[270px] w-full border p-1 my-2 bg-amber-300"
+        >
           >
+          <fwb-button @click="showModal"> Open modal </fwb-button>
+        </fwb-radio>
+      </div>
+      <div class="payment-form w-[250px] md:!w-[400px] border">
+        <h2>選擇付款方式</h2>
+
+        <fwb-radio
+          v-model="picked"
+          label="超商取貨付款"
+          name="list-radio"
+          value="Svelte"
+          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+        />
+
+        <fwb-radio
+          v-model="picked"
+          label="信用卡線上付清"
+          name="list-radio"
+          value="Vue JS"
+          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+        />
+      </div>
+      <div class="send-form w-[250px] md:!w-[400px] border">
+        <h2>選擇配送方式</h2>
+
+        <fwb-radio
+          v-model="picked"
+          label="超商取貨"
+          name="list-radio"
+          value="Svelte"
+          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+        />
+
+        <fwb-radio
+          v-model="picked"
+          label="宅配到府"
+          name="list-radio"
+          value="Vue JS"
+          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+        />
+
+        <fwb-radio
+          v-model="picked"
+          label="郵寄"
+          name="list-radio"
+          value="React"
+          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+        />
+      </div>
+    </div>
+    <div class="md:w-[50%] flex flex-1 justify-center items-center">
+      <div
+        class="md:w-[95%] h-[680px] mx-auto overflow-y-auto flex justify-center items-center"
+      >
+        <table class="md:w-[100%] mx-auto">
+          <thead>
+            <tr>
+              <th></th>
+              <th>商品名稱<br />數量</th>
+              <th>價格</th>
+              <th>小計</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="item in cartItems"
+              :key="item.name"
+              class="overflow-y-auto"
             >
-            <fwb-button @click="showModal"> Open modal </fwb-button>
-          </fwb-radio>
-        </fwb-list-group-item>
-      </fwb-list-group>
+              <th>
+                <div class="w-[70px] h-[70px] md:!w-[100px] md:!h-[100px]">
+                  <img
+                    :src="item.itemImage"
+                    alt=""
+                    class="w-full h-full object-cover rounded-sm"
+                  />
+                </div>
+              </th>
+              <th>
+                <div
+                  class="w-[100px] flex flex-col justify-center items-center gap-2 mx-auto"
+                >
+                  <h2 class="text-sm">{{ item.itemName }}</h2>
+                  <div class="flex justify-center items-center gap-3">
+                    <h2>{{ item.itemQuantity }}</h2>
+                  </div>
+                </div>
+              </th>
+              <th>
+                {{ item.itemPrice }}
+              </th>
+              <th v-if="item.itemQuantity === 1">
+                {{ item.itemPrice }}
+              </th>
+              <th v-else="item.itemQuantity >= 2">
+                {{ itemTotal }}
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="payment-form !w-[700px] !border">
-      <h2>選擇付款方式</h2>
-      <fwb-list-group>
-        <fwb-list-group-item>
-          <fwb-radio
-            v-model="picked"
-            label="超商取貨付款"
-            name="list-radio"
-            value="Svelte"
-            class="md:!w-[500px] border p-1 my-2 bg-amber-300"
-          />
-        </fwb-list-group-item>
-        <fwb-list-group-item>
-          <fwb-radio
-            v-model="picked"
-            label="信用卡線上付清"
-            name="list-radio"
-            value="Vue JS"
-            class="md:!w-[500px] border p-1 my-2 bg-amber-300"
-          />
-        </fwb-list-group-item>
-      </fwb-list-group>
-    </div>
-    <div class="send-form !w-[700px] !border">
-      <h2>選擇配送方式</h2>
-      <fwb-list-group>
-        <fwb-list-group-item>
-          <fwb-radio
-            v-model="picked"
-            label="超商取貨"
-            name="list-radio"
-            value="Svelte"
-            class="md:!w-[500px] border p-1 my-2 bg-amber-300"
-          />
-        </fwb-list-group-item>
-        <fwb-list-group-item>
-          <fwb-radio
-            v-model="picked"
-            label="宅配到府"
-            name="list-radio"
-            value="Vue JS"
-            class="md:!w-[500px] border p-1 my-2 bg-amber-300"
-          />
-        </fwb-list-group-item>
-        <fwb-list-group-item>
-          <fwb-radio
-            v-model="picked"
-            label="郵寄"
-            name="list-radio"
-            value="React"
-            class="md:!w-[500px] border p-1 my-2 bg-amber-300"
-          />
-        </fwb-list-group-item>
-      </fwb-list-group>
+
+    <div class="w-full border-green-500 rounded-md flex justify-end items-end">
+      <table class="PaymentTable">
+        <tr>
+          <!-- <td colspan="4"></td> -->
+          <!-- <td>2</td>
+          <td>3</td>
+          <td>4</td> -->
+        </tr>
+        <tr>
+          <td colspan="4">商品總金額：35555</td>
+          <!-- <td>商品總金額：35555</td> -->
+          <!-- <td>35555</td> -->
+          <!-- <td>4c</td> -->
+        </tr>
+        <tr>
+          <td colspan="4">運費：60</td>
+          <!-- <td colspan="2">運費：60</td> -->
+          <!-- <td>3e</td>
+          <td>4f</td> -->
+        </tr>
+        <tr>
+          <td colspan="4">優惠折抵：50</td>
+          <!-- <td colspan="2">優惠折抵：50</td> -->
+          <!-- <td>3d</td>
+          <td>4j</td> -->
+        </tr>
+        <tr>
+          <td colspan="4">會員折抵:60</td>
+          <!-- <td colspan="2">會員折抵:60</td> -->
+          <!-- <td>3k</td> -->
+        </tr>
+        <tr>
+          <td colspan="4">總計：900</td>
+          <!-- <td colspan="1">總計：900</td> -->
+          <!-- <td>3t</td> -->
+          <!-- <td>4m</td> -->
+        </tr>
+      </table>
     </div>
 
     <fwb-modal v-if="isShowModal" @close="closeModal">
@@ -169,10 +301,10 @@ const couponDescriptions = [
               class="title-box w-[200px] flex justify-center items-center flex-col bg-white"
             ></div>
             <fwb-radio
-              v-model="picked"
+              @click="pickValue(item)"
               label=""
               name="list-radio"
-              value="Svelte"
+              :value="item.code"
               class="flex justify-end items-center me-5"
             />
           </div>
@@ -186,6 +318,7 @@ const couponDescriptions = [
           <fwb-button @click="closeModal" color="green"> I accept </fwb-button>
         </div>
       </template>
+      {{ pickedCoupons }}
     </fwb-modal>
   </div>
 </template>
