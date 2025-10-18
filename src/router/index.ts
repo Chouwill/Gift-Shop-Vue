@@ -4,7 +4,7 @@ const routes = [
   { path: "/", name: "Home", component: () => import("../page/Index.vue") },
   { path: "/shop", name: "Shop", component: () => import("../page/ShoppingMall.vue") },
   { path: "/order", name: "Order", component: () => import("../page/OrderInformation.vue") },
-  { path: "/orderForm", name: "OrderForm", component: () => import("../page/OrdererForm.vue") },
+  { path: "/authForm", name: "AuthForm", component: () => import("../page/AuthForm.vue") },
 ];
 
 const router = createRouter({
