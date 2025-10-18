@@ -5,7 +5,7 @@
 }
 
 * {
-  /* border: none !important; */
+  border: none !important;
 }
 input[type="radio"] {
   background-color: #d7dbe2;

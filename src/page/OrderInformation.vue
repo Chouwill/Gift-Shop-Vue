@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
+
 import {
   FwbRadio,
   FwbModal,
@@ -7,8 +8,10 @@ import {
   FwbListGroup,
   FwbListGroupItem,
   FwbP,
+  FwbInput,
 } from "flowbite-vue";
 import { getCoupons } from "../api/method";
+const name = ref("");
 
 const pickedCoupons = ref();
 const inputText = ref("");
@@ -146,7 +149,7 @@ const cartItems = [
 
         <fwb-radio
           v-model="picked"
-          label="超商取貨付款"
+          label="貨到付款"
           name="list-radio"
           value="Svelte"
           class="md:!w-[270px] border p-1 my-2 bg-amber-300"
@@ -162,14 +165,14 @@ const cartItems = [
       </div>
       <div class="send-form w-[250px] md:!w-[400px] border">
         <h2>選擇配送方式</h2>
-
+        <!-- 
         <fwb-radio
           v-model="picked"
           label="超商取貨"
           name="list-radio"
           value="Svelte"
           class="md:!w-[270px] border p-1 my-2 bg-amber-300"
-        />
+        /> -->
 
         <fwb-radio
           v-model="picked"
@@ -242,8 +245,40 @@ const cartItems = [
     </div>
 
     <div
-      class="w-full border border-green-500 rounded-md flex justify-end items-end"
+      class="w-full border border-green-500 rounded-md flex justify-between items-end"
     >
+      <div
+        class="border w-[700px] h-[100%] flex justify-center items-center flex-col gap-5"
+      >
+        <div class="flex border w-full justify-center items-center gap-5">
+          <fwb-input
+            v-model="name"
+            placeholder="enter your first name"
+            label="訂購人"
+            class="w-[250px] !border"
+          />
+          <fwb-input
+            v-model="name"
+            placeholder="enter your first name"
+            label="訂購人電話"
+            class="w-[250px]"
+          />
+        </div>
+        <div class="flex border w-full justify-center items-center gap-5">
+          <fwb-input
+            v-model="name"
+            placeholder="enter your first name"
+            label="郵遞區號"
+            class="w-[250px] !border"
+          />
+          <fwb-input
+            v-model="name"
+            placeholder="enter your first name"
+            label="寄送地址"
+            class="w-[250px]"
+          />
+        </div>
+      </div>
       <table class="PaymentTable">
         <tr>
           <!-- <td colspan="4"></td> -->
@@ -288,14 +323,14 @@ const cartItems = [
       <div class="w-[250px] flex justify-center items-center">
         <fwb-button
           @click="closeModal"
-          class="w-[150px] h-[50px] bg-[#956bd0] !border !border-[4px] "
+          class="w-[150px] h-[50px] bg-[#956bd0] !border !border-[4px]"
         >
           下訂單
         </fwb-button>
       </div>
     </div>
 
-    <fwb-modal v-if="isShowModal" @close="closeModal" class=" !w-[200px]">
+    <fwb-modal v-if="isShowModal" @close="closeModal" class="!w-[200px]">
       <template #header>
         <div class="flex items-center text-lg">選擇優惠券</div>
       </template>
@@ -303,12 +338,14 @@ const cartItems = [
         <h2>運費優惠卷</h2>
         <div class="Coupons relative" v-for="item in Coupons" :key="item.id">
           <div
-            class="ticket !border md:w-full w-[50%] h-[100px]  !border-amber-600  flex gap-3 my-2"
+            class="ticket !border md:w-full w-[50%] h-[100px] !border-amber-600 flex gap-3 my-2"
           >
             <div
               class="title-box md:w-[450px] w-[300px] h-[100px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
             >
-              <i class="fa-solid fa-ticket md:text-7xl text-5xl text-[#055b46]"></i>
+              <i
+                class="fa-solid fa-ticket md:text-7xl text-5xl text-[#055b46]"
+              ></i>
               <h4 class="ticketTitle text-left">{{ item.description }}卷</h4>
             </div>
             <div
