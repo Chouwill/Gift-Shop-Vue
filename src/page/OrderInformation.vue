@@ -132,13 +132,13 @@ const cartItems = [
 
         <fwb-radio
           v-model="pickedCoupons"
-          label="優惠券"
+          label=""
           name="list-radio"
           value="Vue JS"
           class="md:!w-[270px] w-full border p-1 my-2 bg-amber-300"
+          @click="showModal"
         >
-          >
-          <fwb-button @click="showModal"> Open modal </fwb-button>
+          優惠卷
         </fwb-radio>
       </div>
       <div class="payment-form w-[250px] md:!w-[400px] border">
@@ -241,7 +241,9 @@ const cartItems = [
       </div>
     </div>
 
-    <div class="w-full border-green-500 rounded-md flex justify-end items-end">
+    <div
+      class="w-full border border-green-500 rounded-md flex justify-end items-end"
+    >
       <table class="PaymentTable">
         <tr>
           <!-- <td colspan="4"></td> -->
@@ -280,8 +282,20 @@ const cartItems = [
         </tr>
       </table>
     </div>
+    <div
+      class="w-full border border-green-500 rounded-md flex justify-end items-end"
+    >
+      <div class="w-[250px] flex justify-center items-center">
+        <fwb-button
+          @click="closeModal"
+          class="w-[150px] h-[50px] bg-[#956bd0] !border !border-[4px] "
+        >
+          下訂單
+        </fwb-button>
+      </div>
+    </div>
 
-    <fwb-modal v-if="isShowModal" @close="closeModal">
+    <fwb-modal v-if="isShowModal" @close="closeModal" class=" !w-[200px]">
       <template #header>
         <div class="flex items-center text-lg">選擇優惠券</div>
       </template>
@@ -289,12 +303,12 @@ const cartItems = [
         <h2>運費優惠卷</h2>
         <div class="Coupons relative" v-for="item in Coupons" :key="item.id">
           <div
-            class="ticket !border !border-amber-600 h-[150px] flex gap-3 my-2"
+            class="ticket !border md:w-full w-[50%] h-[100px]  !border-amber-600  flex gap-3 my-2"
           >
             <div
-              class="title-box w-[450px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
+              class="title-box md:w-[450px] w-[300px] h-[100px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
             >
-              <i class="fa-solid fa-ticket text-8xl text-[#055b46]"></i>
+              <i class="fa-solid fa-ticket md:text-7xl text-5xl text-[#055b46]"></i>
               <h4 class="ticketTitle text-left">{{ item.description }}卷</h4>
             </div>
             <div
@@ -311,11 +325,19 @@ const cartItems = [
         </div>
       </template>
       <template #footer>
-        <div class="flex justify-between">
-          <fwb-button @click="closeModal" color="alternative">
-            Decline
+        <div class="flex justify-end gap-5">
+          <fwb-button
+            @click="closeModal"
+            class="w-[68px] h-[44px] bg-[#e5e2e2] !border !border-[4px]"
+          >
+            取消
           </fwb-button>
-          <fwb-button @click="closeModal" color="green"> I accept </fwb-button>
+          <fwb-button
+            @click="closeModal"
+            class="w-[68px] h-[44px] bg-[#956bd0] !border !border-[4px]"
+          >
+            確認
+          </fwb-button>
         </div>
       </template>
       {{ pickedCoupons }}
@@ -323,4 +345,10 @@ const cartItems = [
   </div>
 </template>
 
-<style></style>
+<style scoped>
+/* button {
+  max-width: 68px;
+  max-height: 44px;
+  border: 2px solid #e5e2e2 !important;
+} */
+</style>

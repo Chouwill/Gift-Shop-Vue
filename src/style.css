@@ -5,7 +5,7 @@
 }
 
 * {
-  border: none !important;
+  /* border: none !important; */
 }
 input[type="radio"] {
   background-color: #d7dbe2;
@@ -63,7 +63,7 @@ td {
 
 .PaymentTable {
   width: 200px;
-  /* border: 3px solid red; */
+  border: 3px solid red;
   margin: 19px 35px 2px;
   text-align-last: left;
 }
