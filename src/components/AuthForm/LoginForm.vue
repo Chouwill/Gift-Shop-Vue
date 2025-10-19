@@ -70,26 +70,26 @@ function sendLogin() {
     loginError.value.email = errMsg.email._errors[0];
     loginError.value.password = errMsg.password._errors[0];
 
-    console.log("送出驗證錯誤",loginError.value.email);
-    console.log("送出驗證錯誤",loginError.value.password);
-    
+    console.log("送出驗證錯誤", loginError.value.email);
+    console.log("送出驗證錯誤", loginError.value.password);
   }
 }
 </script>
 
 <template>
-  <h2>登入表單</h2>
   <div class="authModal">
     <fwb-button @click="showModal"> Open modal </fwb-button>
 
     <fwb-modal v-if="isShowModal" @close="closeModal">
       <template #header>
-        <div class="flex items-center text-lg">登入表單</div>
+        <div class="flex items-center text-lg"></div>
       </template>
       <template #body>
         <div
           class="mx-auto py-10 w-[45%] flex flex-col justify-center items-center gap-7 shadow-2xl rounded-xl bg-[#eeeded]"
         >
+          <h2 class="text-xl">會員登入</h2>
+
           <fwb-input
             placeholder=""
             label="email"

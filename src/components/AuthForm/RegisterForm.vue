@@ -82,18 +82,18 @@ function showModal() {
 </script>
 
 <template>
-  <h2>註冊表單</h2>
   <div class="authModal">
     <fwb-button @click="showModal"> Open modal </fwb-button>
 
     <fwb-modal v-if="isShowModal" @close="closeModal">
       <template #header>
-        <div class="flex items-center text-lg">註冊表單</div>
+        <div class="flex items-center text-lg"></div>
       </template>
       <template #body>
         <div
           class="mx-auto py-10 w-[45%] flex flex-col justify-center items-center gap-7 shadow-2xl rounded-xl bg-[#eeeded]"
         >
+          <h2 class="text-xl">註冊表單</h2>
           <fwb-input
             v-model="registerFrom.email"
             placeholder=""
