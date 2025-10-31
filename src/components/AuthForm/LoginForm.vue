@@ -2,6 +2,9 @@
 import { ref } from "vue";
 import { FwbButton, FwbModal, FwbInput } from "flowbite-vue";
 import { z } from "zod";
+import { useUserStore } from "../../store/Auth.ts";
+
+const userStore = useUserStore();
 
 const isShowModal = ref(false);
 const name = ref("");
@@ -14,8 +17,8 @@ function showModal() {
 }
 
 const loginFrom = ref({
-  email: "",
-  password: "",
+  email: "adminQA00X01@yahoo.com.tw",
+  password: "12345",
 });
 
 const LoginSchema = z.object({
@@ -56,10 +59,13 @@ function checkField(field) {
 }
 
 function sendLogin() {
+  console.log(userStore);
+
   const result = LoginSchema.safeParse(loginFrom.value);
 
   if (result.success) {
     console.log("表單正確");
+    userStore.onLogin(loginFrom.value);
   } else {
     console.log("未填寫");
 

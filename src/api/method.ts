@@ -19,3 +19,23 @@ export function getCoupons(data: object) {
     data,
   });
 }
+// 登入會員
+export function useLogin(data: object) {
+  return instance({
+    url: `/login`,
+    method: "post",
+    data,
+  });
+}
+
+
+// 註冊會員
+export function useRegister(data: object) {
+  return instance({
+    url: `/register`,
+    method: "post",
+    data,
+  });
+}
+
+
