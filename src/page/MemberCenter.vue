@@ -1,51 +1,104 @@
 <script setup>
 import { FwbButtonGroup, FwbButton, FwbInput, FwbRadio } from "flowbite-vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
-const name = ref("");
+import MemberMenu from "../components/MemberCenter/MemberMenu.vue";
+import UseCoupons from "../components/MemberCenter/UseCoupons.vue";
+import UserOrder from "../components/MemberCenter/UserOrder.vue";
+import UserProfile from "../components/MemberCenter/UserProfile.vue";
+// import MemberMenu from "../components/MemberCenter/MemberMenu.vue";
+
+const memberCenterMaps = {
+  useCoupons: UseCoupons,
+  userProfile: UserProfile,
+  userOrder: UserOrder,
+};
+
+const currentPage = ref("userProfile");
+
+// const currentView = computed(() => memberCenterMaps[currentPage.value]);
+const currentView = computed(() => {
+  console.log("🔄 currentPage.value =", currentPage.value);
+  console.log("📦 找到的組件 =", memberCenterMaps[currentPage.value]);
+  return memberCenterMaps[currentPage.value];
+});
 </script>
 
 <template>
-  <div class="md:w-[1200px] !border mx-auto my-5">
+  <div class="md:w-[1200px] mx-auto">
     <h2 class="text-center text-4xl">會員中心</h2>
-    <main class="!border w-full flex">
-      <div class="menuBar w-[300px] h-[500px] !border flex flex-col gap-3">
-      <fwb-button>我的帳戶 56<i class="fa-solid fa-diamond"></i></fwb-button>
-      <fwb-button>訂單總覽</fwb-button>
-      <fwb-button>我的優惠卷</fwb-button>
-      <!-- <fwb-button color="alternative">Button Alternative</fwb-button>
-      <fwb-button color="red">Button Red</fwb-button> -->
-    </div>
-      <div class="w-[900px] !border">
-        <div class="profile">
-          <h2>我的檔案</h2>
-          <div class="profile-from flex flex-col gap-5">
-            <div class="flex !border">
+    <main class="md:w-full flex md:flex-row flex-col gap-3 !border">
+      <div
+        class="menuBar md:w-[300px] w-[400px] md:h-[350px] flex md:flex-col flex-row justify-start items-center gap-3 mt-5 bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300"
+      >
+        <fwb-button
+          @click="currentPage = 'userProfile'"
+          class="md:!w-[150px] md:mt-3"
+          >我的帳戶 56 <i class="fa-solid fa-diamond"></i
+        ></fwb-button>
+        <fwb-button @click="currentPage = 'userOrder'" class="md:!w-[150px]"
+          >訂單總覽</fwb-button
+        >
+        <fwb-button @click="currentPage = 'useCoupons'" class="md:!w-[150px]"
+          >我的優惠卷</fwb-button
+        >
+      </div>
+
+      <div class="md:w-[700px] mt-5">
+        <div
+          class="profile flex flex-col gap-3 md:w-[600px] h-[350px] bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300"
+        >
+          <component :is="currentView" />
+         <!-- <div class="profile-from flex flex-col gap-3">
+            <h2>我的檔案</h2>
+
+            <div class="flex justify-start items-center gap-3">
               <label for="email">使用者帳號</label>
               <h2>XXXP</h2>
             </div>
-            <div class="flex !border">
+            <div class="flex justify-start items-center gap-3">
               <label for="email">姓名/暱稱</label>
-              <input type="text" />
+              <input type="text" class="!border w-[150px] h-[30px]" />
             </div>
-            <div class="flex !border">
+            <div class="flex justify-start items-center gap-3">
               <label for="email">郵件信箱</label>
-              <h2>XXXP</h2>
+              <h2>XXXP@gmail.com</h2>
             </div>
-            <div class="flex !border">
+            <div class="flex justify-start items-center gap-3">
               <label for="email">性別</label>
-              <fwb-radio class="!border !w-[150px]" v-model="picked" name="Man" label="男生" value="Man" />
-              <fwb-radio class="!border !w-[150px]" v-model="picked" name="Girl" label="女生" value="Woman" />
-              <fwb-radio class="!border !w-[150px]" v-model="picked" name="Other" label="其他" value="Other" />
+              <div class="flex gap-3">
+                <div>
+                  <input type="radio" id="Man" name="Gender" value="Man" />
+                  <label for="Man">男生</label>
+                </div>
+                <div>
+                  <input type="radio" id="Girl" name="Gender" value="Girl" />
+                  <label for="Girl">女生</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="Other"
+                    name="Gender"
+                    value="Other"
+                    checked
+                  />
+                  <label for="Other">其他</label>
+                </div>
+              </div>
             </div>
-            <div class="flex !border">
+            <div class="flex justify-start items-center gap-3">
               <label for="email">生日</label>
-              <input type="date" name="" id="" />
+              <input type="date" name="" id="" class="!border w-[140px]" />
             </div>
-          </div>
+            <button
+              class="w-[100px] py-1 bg-amber-400 mx-auto mt-4 rounded-md shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-200"
+            >
+              儲存
+            </button>
+          </div>  -->
         </div>
       </div>
     </main>
-
   </div>
 </template>
