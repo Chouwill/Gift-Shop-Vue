@@ -1,6 +1,5 @@
 import instance from "./axios";
 
-
 // 取得商品列表
 export function getProducts(data: object) {
   return instance({
@@ -9,7 +8,6 @@ export function getProducts(data: object) {
     data,
   });
 }
-
 
 // 取得購物優惠卷
 export function getCoupons(data: object) {
@@ -28,7 +26,6 @@ export function useLogin(data: object) {
   });
 }
 
-
 // 註冊會員
 export function useRegister(data: object) {
   return instance({
@@ -38,4 +35,11 @@ export function useRegister(data: object) {
   });
 }
 
+// 查詢會員點數
 
+export function getUserPoints(userId: any) {
+  return instance({
+    url: `/api/demo-points/${userId}`,
+    method: "get",
+  });
+}

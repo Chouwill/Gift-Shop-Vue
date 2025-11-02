@@ -66,6 +66,11 @@ function sendLogin() {
   if (result.success) {
     console.log("表單正確");
     userStore.onLogin(loginFrom.value);
+    setTimeout(() => {
+      console.log("會員ＩＤ", userStore.userId);
+
+      userStore.getPoint(userStore.userId);
+    },7000);
   } else {
     console.log("未填寫");
 

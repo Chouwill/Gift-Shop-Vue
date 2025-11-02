@@ -2,10 +2,12 @@ import { defineStore } from "pinia";
 import Cookies from "js-cookie";
 import { ref } from "vue";
 
-import { useLogin, useRegister } from "../api/method";
+import { useLogin, useRegister, getUserPoints } from "../api/method";
 
 export const useUserStore = defineStore("alerts", () => {
   const userData = ref(null);
+  const userId = ref(null);
+  const userPoint = ref(null);
   async function onLogin(data: any) {
     try {
       const res = await useLogin(data);
@@ -13,18 +15,40 @@ export const useUserStore = defineStore("alerts", () => {
       console.log(res);
 
       userData.value = res.data.user;
+      userId.value = res.data.user.id;
 
       console.log("登入資訊", userData.value);
+      console.log("登入資訊ID", userId.value);
       console.log("登入token", res.data.token);
       Cookies.set("token", res.data.token, {
         expires: 3,
-        secure: true, 
-        sameSite: "Strict", 
+        secure: true,
+        sameSite: "Strict",
       });
     } catch (e) {
       console.log(e);
     }
   }
+
+  // 查詢會員點數
+  async function getPoint(userId: any) {
+    try {
+      const resPoint = await getUserPoints(userId);
+
+      console.log(resPoint);
+
+      userPoint.value = resPoint.data.points;
+
+
+      console.log(`會員：${userId},點數：${userPoint.value}`);
+      
+
+      // userData.value = res.data.user;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   async function onRegister(data: any) {
     try {
       const res = await useRegister(data);
@@ -41,7 +65,9 @@ export const useUserStore = defineStore("alerts", () => {
 
   return {
     userData,
+    userId,
     onLogin,
     onRegister,
+    getPoint,
   };
 });
