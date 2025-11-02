@@ -1,12 +1,16 @@
 <script setup>
 import { FwbButtonGroup, FwbButton, FwbInput, FwbRadio } from "flowbite-vue";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import MemberMenu from "../components/MemberCenter/MemberMenu.vue";
 import UseCoupons from "../components/MemberCenter/UseCoupons.vue";
 import UserOrder from "../components/MemberCenter/UserOrder.vue";
 import UserProfile from "../components/MemberCenter/UserProfile.vue";
 // import MemberMenu from "../components/MemberCenter/MemberMenu.vue";
+import { useUserStore } from "../store/Auth.ts";
+const userStore = useUserStore();
+
+let userPoint = ref(localStorage.getItem("userPoint"));
 
 const memberCenterMaps = {
   useCoupons: UseCoupons,
@@ -18,9 +22,14 @@ const currentPage = ref("userProfile");
 
 // const currentView = computed(() => memberCenterMaps[currentPage.value]);
 const currentView = computed(() => {
-  console.log("🔄 currentPage.value =", currentPage.value);
-  console.log("📦 找到的組件 =", memberCenterMaps[currentPage.value]);
+  console.log(" currentPage.value =", currentPage.value);
+  console.log(" 找到的組件 =", memberCenterMaps[currentPage.value]);
   return memberCenterMaps[currentPage.value];
+});
+
+onMounted(() => {
+console.log("point",userPoint.value);
+
 });
 </script>
 
@@ -34,7 +43,7 @@ const currentView = computed(() => {
         <fwb-button
           @click="currentPage = 'userProfile'"
           class="md:!w-[150px] md:mt-3"
-          >我的帳戶 56 <i class="fa-solid fa-diamond"></i
+          >我的帳戶 {{ userPoint }} <i class="fa-solid fa-diamond"></i
         ></fwb-button>
         <fwb-button @click="currentPage = 'userOrder'" class="md:!w-[150px]"
           >訂單總覽</fwb-button
@@ -49,7 +58,7 @@ const currentView = computed(() => {
           class="profile flex flex-col gap-3 md:w-[600px] h-[350px] bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300"
         >
           <component :is="currentView" />
-         <!-- <div class="profile-from flex flex-col gap-3">
+          <!-- <div class="profile-from flex flex-col gap-3">
             <h2>我的檔案</h2>
 
             <div class="flex justify-start items-center gap-3">

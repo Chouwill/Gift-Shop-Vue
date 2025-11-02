@@ -17,7 +17,7 @@ function showModal() {
 }
 
 const loginFrom = ref({
-  email: "adminQA00X01@yahoo.com.tw",
+  email: "postmanTest@yahoo.com.tw",
   password: "12345",
 });
 

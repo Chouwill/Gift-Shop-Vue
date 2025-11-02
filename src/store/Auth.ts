@@ -18,6 +18,7 @@ export const useUserStore = defineStore("alerts", () => {
       userId.value = res.data.user.id;
 
       console.log("登入資訊", userData.value);
+      localStorage.setItem("userInfo", JSON.stringify(userData.value));
       console.log("登入資訊ID", userId.value);
       console.log("登入token", res.data.token);
       Cookies.set("token", res.data.token, {
@@ -39,9 +40,9 @@ export const useUserStore = defineStore("alerts", () => {
 
       userPoint.value = resPoint.data.points;
 
+      localStorage.setItem("userPoint", JSON.stringify(userPoint.value));
 
       console.log(`會員：${userId},點數：${userPoint.value}`);
-      
 
       // userData.value = res.data.user;
     } catch (e) {
@@ -66,6 +67,7 @@ export const useUserStore = defineStore("alerts", () => {
   return {
     userData,
     userId,
+    userPoint,
     onLogin,
     onRegister,
     getPoint,
