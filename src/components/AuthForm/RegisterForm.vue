@@ -2,7 +2,9 @@
 import { ref } from "vue";
 import { z } from "zod";
 import { FwbButton, FwbModal, FwbInput } from "flowbite-vue";
+import { useUserStore } from "../../store/Auth.ts";
 
+const userStore = useUserStore();
 const isShowModal = ref(false);
 const name = ref("");
 
@@ -56,6 +58,7 @@ function sendRegister() {
 
   if (result.success) {
     console.log("表單正確");
+    userStore.onRegister(registerFrom.value)
   } else {
     console.log("未填寫");
 
