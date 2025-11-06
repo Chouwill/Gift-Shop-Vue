@@ -1,3 +1,10 @@
+<script setup>
+import { ref, onMounted } from "vue";
+
+// let orderList = ref(localStorage.getItem(JSON.parse("userInfo")));
+
+</script>
+
 <template>
   <div class="profile-from flex flex-col gap-3">
     <h2>訂單總覽</h2>

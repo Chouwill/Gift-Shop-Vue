@@ -10,7 +10,9 @@ import UserProfile from "../components/MemberCenter/UserProfile.vue";
 import { useUserStore } from "../store/Auth.ts";
 const userStore = useUserStore();
 
-let userPoint = ref(localStorage.getItem("userPoint"));
+let userPoint = ref(localStorage.getItem("userPoint")); //會員點數
+let userInfo = ref(null); // 會員資訊
+let userOrder = ref(null); //會員已訂購訂單
 
 const memberCenterMaps = {
   useCoupons: UseCoupons,
@@ -26,11 +28,20 @@ const currentView = computed(() => {
   console.log(" 找到的組件 =", memberCenterMaps[currentPage.value]);
   return memberCenterMaps[currentPage.value];
 });
+function getOrderList() {
+  const result = localStorage.getItem("userInfo");
 
-onMounted(() => {
-console.log("point",userPoint.value);
+  userInfo.value = JSON.parse(result);
+  userOrder.value = userInfo.value.orders;
+}
 
-});
+
+  getOrderList();
+  console.log("point", userPoint.value);
+
+  console.log("使用者資訊", userInfo.value);
+  console.log("已訂購項目", userOrder.value);
+
 </script>
 
 <template>
@@ -57,7 +68,11 @@ console.log("point",userPoint.value);
         <div
           class="profile flex flex-col gap-3 md:w-[600px] h-[350px] bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300"
         >
-          <component :is="currentView" />
+          <component
+            :is="currentView"
+            :userInfo="userInfo"
+            :userOrder="userOrder"
+          />
           <!-- <div class="profile-from flex flex-col gap-3">
             <h2>我的檔案</h2>
 
