@@ -117,7 +117,7 @@ const cartItems = [
 
 <template>
   <div
-    class="md:w-[900px] py-5 w-[90%] flex flex-wrap md:flex-row flex-col h-auto mx-auto my-7 shadow-2xl rounded-xl bg-[#eeeded]"
+    class="md:w-[900px] py-5  flex flex-wrap md:flex-row flex-col h-auto mx-auto my-7 shadow-2xl rounded-xl bg-[#eeeded]"
   >
     <div
       class="select-option w-full !border-green-3px flex md:w-[50%] justify-center items-center flex-col gap-3"
@@ -165,7 +165,7 @@ const cartItems = [
       </div>
       <div class="send-form w-[250px] md:!w-[400px] border">
         <h2>選擇配送方式</h2>
-        <!-- 
+        <!--
         <fwb-radio
           v-model="picked"
           label="超商取貨"
@@ -233,7 +233,7 @@ const cartItems = [
                 {{ item.itemPrice }}
               </th>
               <th v-if="item.itemQuantity === 1">
-                {{ item.itemPrice }}
+                {{ item.itemPrice }}yyy
               </th>
               <th v-else="item.itemQuantity >= 2">
                 {{ itemTotal }}
@@ -248,7 +248,7 @@ const cartItems = [
       class="w-full border border-green-500 rounded-md flex justify-between items-end"
     >
       <div
-        class="border w-[700px] h-[100%] flex justify-center items-center flex-col gap-5"
+        class="!border md:w-[700px] h-[100%] flex justify-center items-center flex-col gap-5"
       >
         <div class="flex border w-full justify-center items-center gap-5">
           <fwb-input
@@ -336,9 +336,9 @@ const cartItems = [
       </template>
       <template #body>
         <h2>運費優惠卷</h2>
-        <div class="Coupons relative" v-for="item in Coupons" :key="item.id">
+        <div class="Coupons  relative" v-for="item in Coupons" :key="item.id">
           <div
-            class="ticket !border md:w-full w-[50%] h-[100px] !border-amber-600 flex gap-3 my-2"
+            class="ticket !border  h-[100px] !border-amber-600 flex gap-3 my-2"
           >
             <div
               class="title-box md:w-[450px] w-[300px] h-[100px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"

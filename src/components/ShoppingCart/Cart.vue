@@ -7,7 +7,7 @@
     <fwb-modal size="2xl" v-if="isShowModal" @close="closeModal">
       <template #header>
         <div class="w-[90%] flex justify-center items-center pl-20 py-2">
-          <h2 class="text-xl font-semibold text-gray-800">購物車</h2>
+          <h2 class="text-xl font-semibold text-gray-800">購物車===</h2>
         </div>
       </template>
       <template #body>
@@ -139,7 +139,7 @@ function addQuantity(item: any) {
   itemTotal.value = item.itemQuantity * item.itemPrice;
 
   console.log("當前項目",itemTotal.value);
-  
+
   cartTotal.value
 
   // console.log("list?", localList.value.item.itemQuantity++);
