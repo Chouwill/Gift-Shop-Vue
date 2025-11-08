@@ -117,10 +117,10 @@ const cartItems = [
 
 <template>
   <div
-    class="md:w-[900px] py-5 w-[90%] flex flex-wrap md:flex-row flex-col h-auto mx-auto my-7 shadow-2xl rounded-xl bg-[#eeeded]"
+    class="md:w-[900px] py-5 flex flex-wrap md:flex-row flex-col h-auto mx-auto my-7 shadow-2xl rounded-xl bg-[#eeeded]"
   >
     <div
-      class="select-option w-full !border-green-3px flex md:w-[50%] justify-center items-center flex-col gap-3"
+      class="select-option w-full !border-green-3px flex md:w-[50%] justify-center items-center flex-col md:gap-3 gap-1"
     >
       <div class="payment-form w-[250px] md:w-[400px] border">
         <h2>選擇優惠方式</h2>
@@ -130,7 +130,7 @@ const cartItems = [
           label="會員點數折抵"
           name="list-radio"
           value="Svelte"
-          class="md:!w-[270px] w-full border p-1 my-2 bg-amber-300"
+          class="md:!w-[270px] w-[150px] border p-1 my-2 bg-amber-300"
         />
 
         <fwb-radio
@@ -165,7 +165,7 @@ const cartItems = [
       </div>
       <div class="send-form w-[250px] md:!w-[400px] border">
         <h2>選擇配送方式</h2>
-        <!-- 
+        <!--
         <fwb-radio
           v-model="picked"
           label="超商取貨"
@@ -248,7 +248,7 @@ const cartItems = [
       class="w-full border border-green-500 rounded-md flex justify-between items-end"
     >
       <div
-        class="border w-[700px] h-[100%] flex justify-center items-center flex-col gap-5"
+        class="border md:w-[700px] h-[100%] flex justify-center items-center flex-col gap-5"
       >
         <div class="flex border w-full justify-center items-center gap-5">
           <fwb-input
@@ -329,56 +329,73 @@ const cartItems = [
         </fwb-button>
       </div>
     </div>
-
-    <fwb-modal v-if="isShowModal" @close="closeModal" class="!w-[200px]">
-      <template #header>
-        <div class="flex items-center text-lg">選擇優惠券</div>
-      </template>
-      <template #body>
-        <h2>運費優惠卷</h2>
-        <div class="Coupons relative" v-for="item in Coupons" :key="item.id">
+    <div class="couppon-modal !w-[300px]">
+      <fwb-modal
+        v-if="isShowModal"
+        @close="closeModal"
+        class="!border-[5px] !border-red-500"
+      >
+        <template #header>
+          <div class="flex items-center text-lg">選擇優惠券</div>
+        </template>
+        <template #body>
           <div
-            class="ticket !border md:w-full w-[50%] h-[100px] !border-amber-600 flex gap-3 my-2"
+            class="!border-[6px] !border-yellow-400 md:w-full w-[350px] !p-0"
           >
+            <h2>運費優惠卷</h2>
             <div
-              class="title-box md:w-[450px] w-[300px] h-[100px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
+              class="Coupons md:w-full w-[350px] relative !border-[3px] !border-blue-500"
+              v-for="item in Coupons"
+              :key="item.id"
             >
-              <i
-                class="fa-solid fa-ticket md:text-7xl text-5xl text-[#055b46]"
-              ></i>
-              <h4 class="ticketTitle text-left">{{ item.description }}卷</h4>
+              <div
+                class="ticket !border-[3px] h-[100px] !border-green-500 flex gap-3 my-2"
+              >
+                <div
+                  class="title-box md:w-[450px] !border-[4px] !border-purple-600 w-[300px] h-[100px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
+                >
+                  <i
+                    class="fa-solid fa-ticket md:text-7xl text-2xl text-[#055b46]"
+                  ></i>
+                  <h4 class="ticketTitle md:text-sm text-xs text-left">
+                    {{ item.description }}卷
+                  </h4>
+                </div>
+                <div
+                  class="title-box w-full !border-[4px] !border-pink-500 flex justify-center items-center flex-col bg-white"
+                ></div>
+                <fwb-radio
+                  @click="pickValue(item)"
+                  label=""
+                  name="list-radio"
+                  :value="item.code"
+                  class="flex justify-end items-center me-5"
+                />
+              </div>
             </div>
-            <div
-              class="title-box w-[200px] flex justify-center items-center flex-col bg-white"
-            ></div>
-            <fwb-radio
-              @click="pickValue(item)"
-              label=""
-              name="list-radio"
-              :value="item.code"
-              class="flex justify-end items-center me-5"
-            />
           </div>
-        </div>
-      </template>
-      <template #footer>
-        <div class="flex justify-end gap-5">
-          <fwb-button
-            @click="closeModal"
-            class="w-[68px] h-[44px] bg-[#e5e2e2] !border !border-[4px]"
+        </template>
+        <template #footer>
+          <div
+            class="md:w-full w-[350px] flex justify-end gap-5 !border-[5px] !border-orange-500"
           >
-            取消
-          </fwb-button>
-          <fwb-button
-            @click="closeModal"
-            class="w-[68px] h-[44px] bg-[#956bd0] !border !border-[4px]"
-          >
-            確認
-          </fwb-button>
-        </div>
-      </template>
-      {{ pickedCoupons }}
-    </fwb-modal>
+            <fwb-button
+              @click="closeModal"
+              class="w-[68px] h-[44px] bg-[#e5e2e2] !border !border-[4px]"
+            >
+              取消
+            </fwb-button>
+            <fwb-button
+              @click="closeModal"
+              class="w-[68px] h-[44px] bg-[#956bd0] !border !border-[4px]"
+            >
+              確認
+            </fwb-button>
+          </div>
+        </template>
+        {{ pickedCoupons }}
+      </fwb-modal>
+    </div>
   </div>
 </template>
 
