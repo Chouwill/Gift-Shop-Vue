@@ -120,9 +120,9 @@ const cartItems = [
     class="md:w-[900px] py-5 flex flex-wrap md:flex-row flex-col h-auto mx-auto my-7 shadow-2xl rounded-xl bg-[#eeeded]"
   >
     <div
-      class="select-option w-full !border-green-3px flex md:w-[50%] justify-center items-center flex-col md:gap-3 gap-1"
+      class="select-option w-full ! -green-3px flex md:w-[50%] justify-center items-center flex-col md:gap-3 gap-1"
     >
-      <div class="payment-form w-[250px] md:w-[400px] border">
+      <div class="payment-form w-[250px] md:w-[400px]">
         <h2>選擇優惠方式</h2>
 
         <fwb-radio
@@ -130,7 +130,7 @@ const cartItems = [
           label="會員點數折抵"
           name="list-radio"
           value="Svelte"
-          class="md:!w-[270px] w-[150px] border p-1 my-2 bg-amber-300"
+          class="md:!w-[270px] w-[150px] p-1 my-2 bg-amber-300"
         />
 
         <fwb-radio
@@ -138,13 +138,13 @@ const cartItems = [
           label=""
           name="list-radio"
           value="Vue JS"
-          class="md:!w-[270px] w-full border p-1 my-2 bg-amber-300"
+          class="md:!w-[270px] w-full p-1 my-2 bg-amber-300"
           @click="showModal"
         >
           優惠卷
         </fwb-radio>
       </div>
-      <div class="payment-form w-[250px] md:!w-[400px] border">
+      <div class="payment-form w-[250px] md:!w-[400px]">
         <h2>選擇付款方式</h2>
 
         <fwb-radio
@@ -152,7 +152,7 @@ const cartItems = [
           label="貨到付款"
           name="list-radio"
           value="Svelte"
-          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+          class="md:!w-[270px] p-1 my-2 bg-amber-300"
         />
 
         <fwb-radio
@@ -160,10 +160,10 @@ const cartItems = [
           label="信用卡線上付清"
           name="list-radio"
           value="Vue JS"
-          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+          class="md:!w-[270px] p-1 my-2 bg-amber-300"
         />
       </div>
-      <div class="send-form w-[250px] md:!w-[400px] border">
+      <div class="send-form w-[250px] md:!w-[400px]">
         <h2>選擇配送方式</h2>
         <!--
         <fwb-radio
@@ -171,7 +171,7 @@ const cartItems = [
           label="超商取貨"
           name="list-radio"
           value="Svelte"
-          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+          class="md:!w-[270px]   p-1 my-2 bg-amber-300"
         /> -->
 
         <fwb-radio
@@ -179,7 +179,7 @@ const cartItems = [
           label="宅配到府"
           name="list-radio"
           value="Vue JS"
-          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+          class="md:!w-[270px] p-1 my-2 bg-amber-300"
         />
 
         <fwb-radio
@@ -187,15 +187,19 @@ const cartItems = [
           label="郵寄"
           name="list-radio"
           value="React"
-          class="md:!w-[270px] border p-1 my-2 bg-amber-300"
+          class="md:!w-[270px] p-1 my-2 bg-amber-300"
         />
       </div>
     </div>
-    <div class="md:w-[50%] flex flex-1 justify-center items-center">
+    <div
+      class="md:w-[50%] flex flex-col flex-1 justify-center items-center"
+    >
+      <h2 class="text-lg font-medium">購物車明細</h2>
+
       <div
         class="md:w-[95%] h-[680px] mx-auto overflow-y-auto flex justify-center items-center"
       >
-        <table class="md:w-[100%] mx-auto">
+        <table class="md:w-[100%] w-[355px] mx-auto">
           <thead>
             <tr>
               <th></th>
@@ -245,17 +249,19 @@ const cartItems = [
     </div>
 
     <div
-      class="w-full border border-green-500 rounded-md flex justify-between items-end"
+      class="w-full -green-500 rounded-md flex md:flex-row flex-col md:justify-between md:items-end justify-center items-center"
     >
       <div
-        class="border md:w-[700px] h-[100%] flex justify-center items-center flex-col gap-5"
+        class="md:w-[550px] w h-[100%] flex justify-center items-center flex-col gap-5"
       >
-        <div class="flex border w-full justify-center items-center gap-5">
+        <div
+          class="flex md:flex-row flex-col w-full justify-center items-center gap-5"
+        >
           <fwb-input
             v-model="name"
             placeholder="enter your first name"
             label="訂購人"
-            class="w-[250px] !border"
+            class="w-[250px]"
           />
           <fwb-input
             v-model="name"
@@ -264,12 +270,14 @@ const cartItems = [
             class="w-[250px]"
           />
         </div>
-        <div class="flex border w-full justify-center items-center gap-5">
+        <div
+          class="flex md:flex-row flex-col w-full justify-center items-center gap-5"
+        >
           <fwb-input
             v-model="name"
             placeholder="enter your first name"
             label="郵遞區號"
-            class="w-[250px] !border"
+            class="w-[250px]"
           />
           <fwb-input
             v-model="name"
@@ -317,42 +325,32 @@ const cartItems = [
         </tr>
       </table>
     </div>
-    <div
-      class="w-full border border-green-500 rounded-md flex justify-end items-end"
-    >
+    <div class="w-full -green-500 rounded-md flex justify-end items-end">
       <div class="w-[250px] flex justify-center items-center">
         <fwb-button
           @click="closeModal"
-          class="w-[150px] h-[50px] bg-[#956bd0] !border !border-[4px]"
+          class="w-[150px] h-[50px] bg-[#956bd0] -[4px]"
         >
           下訂單
         </fwb-button>
       </div>
     </div>
     <div class="couppon-modal !w-[300px]">
-      <fwb-modal
-        v-if="isShowModal"
-        @close="closeModal"
-        class="!border-[5px] !border-red-500"
-      >
+      <fwb-modal v-if="isShowModal" @close="closeModal" class="">
         <template #header>
           <div class="flex items-center text-lg">選擇優惠券</div>
         </template>
         <template #body>
-          <div
-            class="!border-[6px] !border-yellow-400 md:w-full w-[350px] !p-0"
-          >
+          <div class="md:w-full w-[350px] !p-0">
             <h2>運費優惠卷</h2>
             <div
-              class="Coupons md:w-full w-[350px] relative !border-[3px] !border-blue-500"
+              class="Coupons md:w-full w-[350px] relative"
               v-for="item in Coupons"
               :key="item.id"
             >
-              <div
-                class="ticket !border-[3px] h-[100px] !border-green-500 flex gap-3 my-2"
-              >
+              <div class="ticket -[3px] h-[100px] flex gap-3 my-2">
                 <div
-                  class="title-box md:w-[450px] !border-[4px] !border-purple-600 w-[300px] h-[100px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
+                  class="title-box md:w-[450px] w-[300px] h-[100px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
                 >
                   <i
                     class="fa-solid fa-ticket md:text-7xl text-2xl text-[#055b46]"
@@ -362,7 +360,7 @@ const cartItems = [
                   </h4>
                 </div>
                 <div
-                  class="title-box w-full !border-[4px] !border-pink-500 flex justify-center items-center flex-col bg-white"
+                  class="title-box w-full flex justify-center items-center flex-col bg-white"
                 ></div>
                 <fwb-radio
                   @click="pickValue(item)"
@@ -376,18 +374,16 @@ const cartItems = [
           </div>
         </template>
         <template #footer>
-          <div
-            class="md:w-full w-[350px] flex justify-end gap-5 !border-[5px] !border-orange-500"
-          >
+          <div class="md:w-full w-[350px] flex justify-end gap-5 -orange-500">
             <fwb-button
               @click="closeModal"
-              class="w-[68px] h-[44px] bg-[#e5e2e2] !border !border-[4px]"
+              class="w-[68px] h-[44px] bg-[#e5e2e2]"
             >
               取消
             </fwb-button>
             <fwb-button
               @click="closeModal"
-              class="w-[68px] h-[44px] bg-[#956bd0] !border !border-[4px]"
+              class="w-[68px] h-[44px] bg-[#956bd0]"
             >
               確認
             </fwb-button>
@@ -403,6 +399,6 @@ const cartItems = [
 /* button {
   max-width: 68px;
   max-height: 44px;
-  border: 2px solid #e5e2e2 !important;
+   : 2px solid #e5e2e2 !important;
 } */
 </style>
