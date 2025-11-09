@@ -13,21 +13,13 @@ import {
 } from "flowbite-vue";
 import { useCart } from "../../composables/useCart";
 
-const { cartList, addQuantity, deleteQuantity } = useCart();
+const { cartList, addQuantity, deleteQuantity,clearCart } = useCart();
 
-// const props = defineProps(["list"]);
-// 簡寫  v-for 就不用props.list 直接 list 渲染
-const props = defineProps(["list"]);
 
-const localList = ref([]);
-const itemTotal = ref(0);
-const cartTotal = ref(0);
 
-localList.value = props.list;
-// watchEffect(()=>{
-// console.log("props",props.list);
 
-// })
+
+
 
 const isShowModal = ref(false);
 
@@ -60,7 +52,6 @@ function showModal() {
   }
 }
 
-
 // function deleteQuantity(item: any) {
 //   if (item.itemQuantity <= 0) {
 //     item.itemQuantity = 0;
@@ -83,7 +74,7 @@ console.log("00000", cartList.value);
     <fwb-modal size="2xl" v-if="isShowModal" @close="closeModal">
       <template #header>
         <div class="w-[90%] flex justify-center items-center pl-20 py-2">
-          <h2 class="text-xl font-semibold text-gray-800">購物車lll</h2>
+          <h2 class="text-xl font-semibold text-gray-800">購物車</h2>
         </div>
       </template>
       <template #body>
@@ -126,11 +117,8 @@ console.log("00000", cartList.value);
               <th>
                 {{ item.price }}
               </th>
-              <th v-if="item.quantity === 1">
-                {{ item.price }}
-              </th>
-              <th v-else="item.quantity >= 2">
-                {{ itemTotal }}
+              <th>
+                {{ item.price * item.quantity }}
               </th>
             </tr>
           </tbody>
@@ -140,6 +128,13 @@ console.log("00000", cartList.value);
         <table class="border md:w-[450px] mx-auto">
           <tbody>
             <tr class="">
+              <th>
+                <button @click="clearCart"
+                  class="p-2 bg-orange-500 hover:bg-orange-600 text-white rounded"
+                >
+                  清空購物車
+                </button>
+              </th>
               <th>總計</th>
               <th colspan="2">000</th>
             </tr>

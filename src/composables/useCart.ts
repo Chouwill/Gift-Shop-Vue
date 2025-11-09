@@ -68,11 +68,16 @@ export const useCart = () => {
     }
   }
 
+  function clearCart() {
+    cartList.value = [];
+  }
+
   return {
     products,
     cartList,
     addQuantity,
     addCart,
     deleteQuantity,
+    clearCart,
   };
 };
