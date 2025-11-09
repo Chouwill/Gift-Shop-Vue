@@ -348,9 +348,9 @@ const cartItems = [
               v-for="item in Coupons"
               :key="item.id"
             >
-              <div class="ticket -[3px] h-[100px] flex gap-3 my-2">
+              <div class="ticket !border  h-[100px] flex gap-3 my-2">
                 <div
-                  class="title-box md:w-[450px] w-[300px] h-[100px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
+                  class="title-box md:w-[450px] w-[300px] h-[98px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
                 >
                   <i
                     class="fa-solid fa-ticket md:text-7xl text-2xl text-[#055b46]"
