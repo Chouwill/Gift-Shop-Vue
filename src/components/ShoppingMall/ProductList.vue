@@ -1,36 +1,15 @@
 <script setup>
 import { ref, watchEffect } from "vue";
 import { FwbButton } from "flowbite-vue";
+import { useCart } from "../../composables/useCart";
 
-const props = defineProps(["card","shoppingList"]);
+const props = defineProps(["card", "shoppingList"]);
+const { addCart } = useCart();
 
 watchEffect(() => {
   console.log("商城列表組件", props.card);
   console.log("購物車列表組件", props.shoppingList);
 });
-
-
-
-function addCart(item) {
-  console.log(item);
-  const findItem = props.shoppingList.find((value) => value.itemId === item.id);
-
-  console.log(findItem);
-
-  if (findItem) {
-    findItem.itemQuantity += 1;
-  } else {
-    props.shoppingList.push({
-      itemId: item.id,
-      itemImage: item.image_url,
-      itemName: item.name,
-      itemPrice: item.price,
-      itemQuantity: 1,
-    });
-  }
-
-  console.log(props.shoppingList);
-}
 </script>
 
 <template>
