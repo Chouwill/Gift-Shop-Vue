@@ -35,21 +35,19 @@ function getOrderList() {
   userOrder.value = userInfo.value.orders;
 }
 
+getOrderList();
+console.log("point", userPoint.value);
 
-  getOrderList();
-  console.log("point", userPoint.value);
-
-  console.log("使用者資訊", userInfo.value);
-  console.log("已訂購項目", userOrder.value);
-
+console.log("使用者資訊", userInfo.value);
+console.log("已訂購項目", userOrder.value);
 </script>
 
 <template>
-  <div class="md:w-[1200px] mx-auto">
+  <div class="md:w-[1200px] mx-auto h-auto">
     <h2 class="text-center text-4xl">會員中心</h2>
-    <main class="md:w-full flex md:flex-row flex-col gap-3 !border">
+    <main class="md:w-full h-auto flex md:flex-row flex-col gap-3 !border">
       <div
-        class="menuBar md:w-[300px] w-[400px] md:h-[350px] flex md:flex-col flex-row justify-start items-center gap-3 mt-5 bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300"
+        class="menuBar md:w-[300px] w-[400px] md:h-[620px] flex md:flex-col flex-row justify-start items-center gap-3 mt-5 bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300"
       >
         <fwb-button
           @click="currentPage = 'userProfile'"
@@ -64,9 +62,12 @@ function getOrderList() {
         >
       </div>
 
-      <div class="md:w-[700px] mt-5">
+      <div class="md:w-[700px] mt-5 h-auto">
         <div
-          class="profile flex flex-col gap-3 md:w-[600px] h-[350px] bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300"
+          :class="[
+            'profile flex flex-col gap-3 md:w-[600px] h-[620px] bg-white p-6 rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300',
+            currentPage === 'userOrder' ? 'md:w-[700px]' : 'md:w-[600px]',
+          ]"
         >
           <component
             :is="currentView"

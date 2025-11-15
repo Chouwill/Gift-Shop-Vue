@@ -50,6 +50,8 @@ export const useUserStore = defineStore("alerts", () => {
     }
   }
 
+  
+
   async function onRegister(data: any) {
     try {
       const res = await useRegister(data);
