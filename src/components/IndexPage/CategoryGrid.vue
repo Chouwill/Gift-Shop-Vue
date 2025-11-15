@@ -16,26 +16,30 @@ const selectGrid = computed(() => {
 </script>
 
 <template>
-  <div
-    class="category-grid-box w-full mt-15 flex-col flex md:flex-wrap justify-center items-center"
-  >
+  <div class="w-full flex flex-col items-center gap-8 py-12">
     <div
-      class="grid-box mt-5 md:m-0 w-full md:w-[956px] flex flex-col md:flex-row md:flex-wrap md:odd:flex-row-reverse"
+      class="w-full max-w-5xl flex flex-col md:flex-row md:odd:flex-row-reverse border border-slate-200 rounded-lg overflow-hidden bg-white hover:border-slate-300 transition-colors"
       v-for="item in selectGrid"
       :key="item.id"
     >
-      <div
-        class="md:w-1/2 flex justify-center items-center md:flex-col bg-[#E9E1F4] h-[478px]"
-      >
-        <h2 class="text-center">{{ item.name }}</h2>
-        <br />
-        <h2 class="text-center">${{ cutAfterDot(item.price) }}</h2>
-      </div>
-      <div class="md:w-1/2 bg-[#EFEFEF] h-[478px]">
-        <img class="object-cover w-full h-full" :src="item.image_url" alt="" />
+      <!-- 商品資訊區 -->
+      <div class="md:w-1/2 flex flex-col justify-center items-center p-8 bg-slate-50">
+        <h2 class="text-2xl font-semibold text-slate-900 mb-3 text-center">
+          {{ item.name }}
+        </h2>
+        <p class="text-3xl font-bold text-slate-800">
+          NT$ {{ cutAfterDot(item.price) }}
+        </p>
       </div>
 
-      <!-- {{ propsItems }} -->
+      <!-- 商品圖片區 -->
+      <div class="md:w-1/2 h-[400px] bg-slate-100">
+        <img
+          class="object-cover w-full h-full"
+          :src="item.image_url"
+          :alt="item.name"
+        />
+      </div>
     </div>
   </div>
 </template>

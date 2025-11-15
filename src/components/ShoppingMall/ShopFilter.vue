@@ -15,56 +15,79 @@ const countries = [
 </script>
 
 <template>
-  <div class="filter-container w-full">
-    <div
-      class="filter-box border border-red-300 m-auto w-[90%] flex flex-wrap gap-2 justify-center items-center py-4md:flex md:flex-nowrap"
-    >
-      <div
-        class="flex md:w-[45%] mt-3 justify-center items-center gap-4 mx-auto border border-green-300"
-      >
-        <fwb-input
-          v-model="name"
-          placeholder=""
-          label="搜尋商品"
-          class="md:w-260px w-[171px]"
-        />
-        <fwb-select
-          v-model="selected"
-          :options="countries"
-          label="分類"
-          class="md:w-[260px] w-[171px]"
-        />
-      </div>
-      <div
-        class="flex md:w-[45%] mt-3 justify-center items-center gap-4 mx-auto border border-green-300"
-      >
-        <fwb-input
-          v-model="name"
-          placeholder=""
-          label="最低價"
-          class="md:w-260px w-[171px]"
-        />
-        <fwb-input
-          v-model="selected"
-          :options="countries"
-          label="最高價"
-          class="md:w-[260px] w-[171px]"
-        />
-      </div>
+  <div class="w-full bg-slate-50 border-y border-slate-200 py-6">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row gap-4 items-end">
+        <!-- 搜尋 + 分類 -->
+        <div class="flex flex-col md:flex-row gap-4 flex-1">
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-slate-700 mb-2">
+              搜尋商品
+            </label>
+            <input
+              v-model="name"
+              type="text"
+              placeholder="請輸入商品名稱..."
+              class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-gray-400 transition-colors"
+            />
+          </div>
 
-      <div class="md:w-[10%] md:mt-10 flex justify-center items-center border">
-        <fwb-button
-          color="Light"
-          class="md:[130px]my-auto text-center rounded-md bg-[#EAEAEA] text-black hover:opacity-80"
-          >清除全部</fwb-button
-        >
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-slate-700 mb-2">
+              分類
+            </label>
+            <select
+              v-model="selected"
+              class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-gray-400 transition-colors"
+            >
+              <option value="">全部分類</option>
+              <option v-for="country in countries" :key="country.value" :value="country.value">
+                {{ country.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 價格區間 -->
+        <div class="flex flex-col md:flex-row gap-4 flex-1">
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-slate-700 mb-2">
+              最低價
+            </label>
+            <input
+              v-model="name"
+              type="number"
+              placeholder="0"
+              class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-gray-400 transition-colors"
+            />
+          </div>
+
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-slate-700 mb-2">
+              最高價
+            </label>
+            <input
+              v-model="selected"
+              type="number"
+              placeholder="10000"
+              class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-gray-400 transition-colors"
+            />
+          </div>
+        </div>
+
+        <!-- 清除按鈕 -->
+        <div class="flex items-center">
+          <button
+            class="px-6 py-2 bg-slate-100 text-slate-700 text-sm font-medium rounded hover:bg-slate-200 transition-colors"
+          >
+            清除全部
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-* {
-  /* border: none !important; */
-}
+/* 移除 debug border */
 </style>

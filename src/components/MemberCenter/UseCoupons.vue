@@ -1,44 +1,72 @@
 <template>
-  <div class="profile-from flex flex-col gap-3">
-    <h2>優惠卷</h2>
+  <div class="flex flex-col gap-6">
+    <!-- 標題 -->
+    <div class="pb-4 border-b border-slate-200">
+      <h2 class="text-2xl font-semibold text-slate-800">我的優惠券</h2>
+    </div>
 
-    <div class="flex justify-start items-center gap-3">
-      <label for="email">使用者帳號</label>
-      <h2>XXXP</h2>
-    </div>
-    <div class="flex justify-start items-center gap-3">
-      <label for="email">姓名/暱稱</label>
-      <input type="text" class="!border w-[150px] h-[30px]" />
-    </div>
-    <div class="flex justify-start items-center gap-3">
-      <label for="email">郵件信箱</label>
-      <h2>XXXP@gmail.com</h2>
-    </div>
-    <div class="flex justify-start items-center gap-3">
-      <label for="email">性別</label>
-      <div class="flex gap-3">
-        <div>
-          <input type="radio" id="Man" name="Gender" value="Man" />
-          <label for="Man">男生</label>
+    <!-- 優惠券列表 -->
+    <div class="flex flex-col gap-4">
+      <!-- 優惠券卡片範例 (之後可改成 v-for) -->
+      <div class="bg-white border border-slate-200 rounded-lg p-5 flex items-center gap-4">
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-slate-900 mb-1">
+            新會員專屬優惠
+          </h3>
+          <p class="text-sm text-slate-600 mb-2">
+            全館商品享 9 折優惠
+          </p>
+          <div class="flex items-center gap-4 text-xs text-slate-500">
+            <span>有效期限: 2024/12/31</span>
+            <span class="px-2 py-1 bg-green-100 text-green-700 rounded">可使用</span>
+          </div>
         </div>
-        <div>
-          <input type="radio" id="Girl" name="Gender" value="Girl" />
-          <label for="Girl">女生</label>
-        </div>
-        <div>
-          <input type="radio" id="Other" name="Gender" value="Other" checked />
-          <label for="Other">其他</label>
-        </div>
+        <button class="px-5 py-2 bg-amber-600 text-white text-sm font-medium rounded hover:bg-amber-500 transition-colors">
+          使用
+        </button>
       </div>
+
+      <div class="bg-white border border-slate-200 rounded-lg p-5 flex items-center gap-4">
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-slate-900 mb-1">
+            滿千折百優惠券
+          </h3>
+          <p class="text-sm text-slate-600 mb-2">
+            消費滿 NT$ 1,000 折抵 NT$ 100
+          </p>
+          <div class="flex items-center gap-4 text-xs text-slate-500">
+            <span>有效期限: 2024/11/30</span>
+            <span class="px-2 py-1 bg-green-100 text-green-700 rounded">可使用</span>
+          </div>
+        </div>
+        <button class="px-5 py-2 bg-amber-600 text-white text-sm font-medium rounded hover:bg-amber-500 transition-colors">
+          使用
+        </button>
+      </div>
+
+      <div class="bg-white border border-slate-200 rounded-lg p-5 flex items-center gap-4 opacity-50">
+        <div class="flex-1">
+          <h3 class="text-base font-semibold text-slate-900 mb-1">
+            生日禮優惠券
+          </h3>
+          <p class="text-sm text-slate-600 mb-2">
+            生日當月享全館 85 折
+          </p>
+          <div class="flex items-center gap-4 text-xs text-slate-500">
+            <span>有效期限: 2024/10/31</span>
+            <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded">已過期</span>
+          </div>
+        </div>
+        <button class="px-5 py-2 bg-slate-200 text-slate-500 text-sm font-medium rounded cursor-not-allowed" disabled>
+          已過期
+        </button>
+      </div>
+
+      <!-- 空狀態提示 -->
+      <!-- <div class="text-center py-12 text-slate-500">
+        <i class="fa-solid fa-ticket text-4xl mb-4 opacity-30"></i>
+        <p>目前沒有可用的優惠券</p>
+      </div> -->
     </div>
-    <div class="flex justify-start items-center gap-3">
-      <label for="email">生日</label>
-      <input type="date" name="" id="" class="!border w-[140px]" />
-    </div>
-    <button
-      class="w-[100px] py-1 bg-amber-400 mx-auto mt-4 rounded-md shadow-[0_2px_8px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-200"
-    >
-      儲存
-    </button>
   </div>
 </template>

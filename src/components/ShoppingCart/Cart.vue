@@ -66,91 +66,119 @@ console.log("00000", cartList.value);
 </script>
 
 <template>
-  <div class="cart-container border fixed">
-    <fwb-button class="w-20 h-20 rounded-[100%]" @click="showModal">
-      <i class="fa-solid fa-cart-shopping text-4xl"></i>
-    </fwb-button>
+  <div class="cart-container fixed bottom-6 right-6 z-50">
+    <!-- 購物車浮動按鈕 -->
+    <button
+      class="w-16 h-16 bg-amber-600 text-white rounded-full flex items-center justify-center hover:bg-amber-500 transition-colors shadow-lg"
+      @click="showModal"
+    >
+      <i class="fa-solid fa-cart-shopping text-2xl"></i>
+    </button>
 
+    <!-- 購物車彈窗 -->
     <fwb-modal size="2xl" v-if="isShowModal" @close="closeModal">
       <template #header>
-        <div class="w-[90%] flex justify-center items-center pl-20 py-2">
-          <h2 class="text-xl font-semibold text-gray-800">購物車</h2>
+        <div class="flex justify-center items-center py-2">
+          <h2 class="text-xl font-semibold text-slate-800">購物車</h2>
         </div>
       </template>
+
       <template #body>
-        <table class="md:w-[500px] mx-auto">
-          <thead>
-            <tr>
-              <th></th>
-              <th>商品名稱<br />數量</th>
-              <th>價格</th>
-              <th>小計</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in cartList" :key="item.id">
-              <th>
-                <img :src="item.image_url" alt="" />
-              </th>
-              <th>
-                <div
-                  class="w-[100px] flex flex-col justify-center items-center gap-2 mx-auto border"
+        <div class="max-w-2xl mx-auto">
+          <!-- 購物車商品列表 -->
+          <div class="flex flex-col gap-4">
+            <div
+              v-for="item in cartList"
+              :key="item.id"
+              class="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200"
+            >
+              <!-- 商品圖片 -->
+              <div class="w-20 h-20 flex-shrink-0 bg-white rounded overflow-hidden">
+                <img
+                  class="w-full h-full object-cover"
+                  :src="item.image_url"
+                  :alt="item.name"
+                />
+              </div>
+
+              <!-- 商品資訊 -->
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-medium text-slate-900 truncate">
+                  {{ item.name }}
+                </h3>
+                <p class="text-sm text-slate-600 mt-1">
+                  NT$ {{ item.price.toLocaleString() }}
+                </p>
+              </div>
+
+              <!-- 數量控制 -->
+              <div class="flex items-center gap-3">
+                <button
+                  @click="deleteQuantity(item)"
+                  class="w-8 h-8 bg-slate-200 hover:bg-amber-100 rounded flex items-center justify-center transition-colors"
                 >
-                  <h2 class="text-sm">{{ item.name }}</h2>
-                  <div class="flex justify-center items-center gap-3">
-                    <fwb-button
-                      @click="deleteQuantity(item)"
-                      class="md:w-[40px] md:h-[40px] w-[30px] h-[30px] flex justify-center items-center"
-                      color="default"
-                      ><i class="fa-solid fa-minus"></i
-                    ></fwb-button>
-                    <h2>{{ item.quantity }}</h2>
-                    <fwb-button
-                      @click="addQuantity(item)"
-                      class="md:w-[40px] md:h-[40px] w-[30px] h-[30px] flex justify-center items-center"
-                      color="default"
-                      ><i class="fa-solid fa-plus"></i
-                    ></fwb-button>
-                  </div>
-                </div>
-              </th>
-              <th>
-                {{ item.price }}
-              </th>
-              <th>
-                {{ item.price * item.quantity }}
-              </th>
-            </tr>
-          </tbody>
-        </table>
-      </template>
-      <template #footer>
-        <table class="border md:w-[450px] mx-auto">
-          <tbody>
-            <tr class="">
-              <th>
-                <button @click="clearCart"
-                  class="p-2 bg-orange-500 hover:bg-orange-600 text-white rounded"
-                >
-                  清空購物車
+                  <i class="fa-solid fa-minus text-sm"></i>
                 </button>
-              </th>
-              <th>總計</th>
-              <th colspan="2">000</th>
-            </tr>
-          </tbody>
-        </table>
+                <span class="text-sm font-medium text-slate-900 w-8 text-center">
+                  {{ item.quantity }}
+                </span>
+                <button
+                  @click="addQuantity(item)"
+                  class="w-8 h-8 bg-slate-200 hover:bg-amber-100 rounded flex items-center justify-center transition-colors"
+                >
+                  <i class="fa-solid fa-plus text-sm"></i>
+                </button>
+              </div>
+
+              <!-- 小計 -->
+              <div class="text-right min-w-[80px]">
+                <p class="text-sm font-semibold text-slate-900">
+                  NT$ {{ (item.price * item.quantity).toLocaleString() }}
+                </p>
+              </div>
+            </div>
+
+            <!-- 空購物車提示 -->
+            <div
+              v-if="cartList.length === 0"
+              class="text-center py-12 text-slate-500"
+            >
+              <i class="fa-solid fa-cart-shopping text-4xl mb-4 opacity-30"></i>
+              <p>購物車是空的</p>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template #footer>
+        <div class="flex justify-between items-center px-6 py-4 bg-slate-50 border-t border-slate-200">
+          <button
+            @click="clearCart"
+            class="px-4 py-2 bg-slate-100 text-slate-700 text-sm font-medium rounded hover:bg-slate-200 transition-colors"
+          >
+            清空購物車
+          </button>
+
+          <div class="flex items-center gap-6">
+            <div class="text-right">
+              <p class="text-sm text-slate-600">總計</p>
+              <p class="text-xl font-bold text-slate-900">
+                NT$ {{ cartList.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString() }}
+              </p>
+            </div>
+
+            <button
+              class="px-6 py-2.5 bg-amber-600 text-white text-sm font-medium rounded hover:bg-amber-500 transition-colors"
+            >
+              前往結帳
+            </button>
+          </div>
+        </div>
       </template>
     </fwb-modal>
   </div>
 </template>
 
 <style scoped>
-:deep(.fwb-modal) {
-  border: 2px solid rebeccapurple !important;
-}
-
-/* .cart-box{
-      border: 2px solid rebeccapurple;
-    } */
+/* 移除舊的 debug border */
 </style>

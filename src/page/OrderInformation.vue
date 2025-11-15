@@ -1,19 +1,16 @@
 <script setup>
 import { ref, computed } from "vue";
-
-import {
-  FwbRadio,
-  FwbModal,
-  FwbButton,
-  FwbListGroup,
-  FwbListGroupItem,
-  FwbP,
-  FwbInput,
-} from "flowbite-vue";
 import { getCoupons } from "../api/method";
-const name = ref("");
 
-const pickedCoupons = ref();
+const name = ref("");
+const phone = ref("");
+const zipCode = ref("");
+const address = ref("");
+
+const pickedPayment = ref("cash");
+const pickedShipping = ref("home");
+const pickedDiscount = ref("");
+const pickedCoupons = ref("");
 const inputText = ref("");
 
 const isShowModal = ref(false);
@@ -116,289 +113,352 @@ const cartItems = [
 </script>
 
 <template>
-  <div
-    class="md:w-[900px] py-5 flex flex-wrap md:flex-row flex-col h-auto mx-auto my-7 shadow-2xl rounded-xl bg-[#eeeded]"
-  >
-    <div
-      class="select-option w-full ! -green-3px flex md:w-[50%] justify-center items-center flex-col md:gap-3 gap-1"
-    >
-      <div class="payment-form w-[250px] md:w-[400px]">
-        <h2>選擇優惠方式</h2>
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- 頁面標題 -->
+    <h1 class="text-3xl font-bold text-slate-900 text-center mb-8">訂單資訊</h1>
 
-        <fwb-radio
-          v-model="picked"
-          label="會員點數折抵"
-          name="list-radio"
-          value="Svelte"
-          class="md:!w-[270px] w-[150px] p-1 my-2 bg-amber-300"
-        />
-
-        <fwb-radio
-          v-model="pickedCoupons"
-          label=""
-          name="list-radio"
-          value="Vue JS"
-          class="md:!w-[270px] w-full p-1 my-2 bg-amber-300"
-          @click="showModal"
-        >
-          優惠卷
-        </fwb-radio>
-      </div>
-      <div class="payment-form w-[250px] md:!w-[400px]">
-        <h2>選擇付款方式</h2>
-
-        <fwb-radio
-          v-model="picked"
-          label="貨到付款"
-          name="list-radio"
-          value="Svelte"
-          class="md:!w-[270px] p-1 my-2 bg-amber-300"
-        />
-
-        <fwb-radio
-          v-model="picked"
-          label="信用卡線上付清"
-          name="list-radio"
-          value="Vue JS"
-          class="md:!w-[270px] p-1 my-2 bg-amber-300"
-        />
-      </div>
-      <div class="send-form w-[250px] md:!w-[400px]">
-        <h2>選擇配送方式</h2>
-        <!--
-        <fwb-radio
-          v-model="picked"
-          label="超商取貨"
-          name="list-radio"
-          value="Svelte"
-          class="md:!w-[270px]   p-1 my-2 bg-amber-300"
-        /> -->
-
-        <fwb-radio
-          v-model="picked"
-          label="宅配到府"
-          name="list-radio"
-          value="Vue JS"
-          class="md:!w-[270px] p-1 my-2 bg-amber-300"
-        />
-
-        <fwb-radio
-          v-model="picked"
-          label="郵寄"
-          name="list-radio"
-          value="React"
-          class="md:!w-[270px] p-1 my-2 bg-amber-300"
-        />
-      </div>
-    </div>
-    <div
-      class="md:w-[50%] flex flex-col flex-1 justify-center items-center"
-    >
-      <h2 class="text-lg font-medium">購物車明細</h2>
-
-      <div
-        class="md:w-[95%] h-[680px] mx-auto overflow-y-auto flex justify-center items-center"
-      >
-        <table class="md:w-[100%] w-[355px] mx-auto">
-          <thead>
-            <tr>
-              <th></th>
-              <th>商品名稱<br />數量</th>
-              <th>價格</th>
-              <th>小計</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="item in cartItems"
-              :key="item.name"
-              class="overflow-y-auto"
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- 左側：選項區 -->
+      <div class="flex-1 space-y-6">
+        <!-- 優惠方式 -->
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">
+            選擇優惠方式
+          </h2>
+          <div class="space-y-3">
+            <label
+              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
             >
-              <th>
-                <div class="w-[70px] h-[70px] md:!w-[100px] md:!h-[100px]">
+              <input
+                type="radio"
+                v-model="pickedDiscount"
+                value="points"
+                name="discount"
+                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+              />
+              <span class="text-sm font-medium text-slate-700"
+                >會員點數折抵</span
+              >
+            </label>
+
+            <label
+              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+            >
+              <input
+                type="radio"
+                v-model="pickedDiscount"
+                value="coupon"
+                name="discount"
+                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+                @click="showModal"
+              />
+              <span class="text-sm font-medium text-slate-700">優惠券</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 付款方式 -->
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">
+            選擇付款方式
+          </h2>
+          <div class="space-y-3">
+            <label
+              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+            >
+              <input
+                type="radio"
+                v-model="pickedPayment"
+                value="cash"
+                name="payment"
+                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+              />
+              <span class="text-sm font-medium text-slate-700">貨到付款</span>
+            </label>
+
+            <label
+              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+            >
+              <input
+                type="radio"
+                v-model="pickedPayment"
+                value="credit"
+                name="payment"
+                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+              />
+              <span class="text-sm font-medium text-slate-700"
+                >信用卡線上付清</span
+              >
+            </label>
+          </div>
+        </div>
+
+        <!-- 配送方式 -->
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">
+            選擇配送方式
+          </h2>
+          <div class="space-y-3">
+            <label
+              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+            >
+              <input
+                type="radio"
+                v-model="pickedShipping"
+                value="home"
+                name="shipping"
+                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+              />
+              <span class="text-sm font-medium text-slate-700">宅配到府</span>
+            </label>
+
+            <label
+              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+            >
+              <input
+                type="radio"
+                v-model="pickedShipping"
+                value="mail"
+                name="shipping"
+                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+              />
+              <span class="text-sm font-medium text-slate-700">郵寄</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- 右側：購物車明細 -->
+      <div class="flex-1 lg:max-w-xl">
+        <div class="bg-white border border-slate-200 rounded-lg p-6">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">購物車明細</h2>
+
+          <div class="max-h-[500px] overflow-y-auto mb-6">
+            <div class="space-y-4">
+              <div
+                v-for="item in cartItems"
+                :key="item.itemId"
+                class="flex gap-4 p-4 border border-slate-200 rounded-lg"
+              >
+                <div class="w-20 h-20 flex-shrink-0">
                   <img
                     :src="item.itemImage"
-                    alt=""
-                    class="w-full h-full object-cover rounded-sm"
+                    :alt="item.itemName"
+                    class="w-full h-full object-cover rounded"
                   />
                 </div>
-              </th>
-              <th>
-                <div
-                  class="w-[100px] flex flex-col justify-center items-center gap-2 mx-auto"
-                >
-                  <h2 class="text-sm">{{ item.itemName }}</h2>
-                  <div class="flex justify-center items-center gap-3">
-                    <h2>{{ item.itemQuantity }}</h2>
-                  </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-sm font-medium text-slate-900 mb-1">
+                    {{ item.itemName }}
+                  </h3>
+                  <p class="text-sm text-slate-600">
+                    數量: {{ item.itemQuantity }}
+                  </p>
+                  <p class="text-sm font-semibold text-slate-900 mt-1">
+                    NT$ {{ item.itemPrice }}
+                  </p>
                 </div>
-              </th>
-              <th>
-                {{ item.itemPrice }}
-              </th>
-              <th v-if="item.itemQuantity === 1">
-                {{ item.itemPrice }}
-              </th>
-              <th v-else="item.itemQuantity >= 2">
-                {{ itemTotal }}
-              </th>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div
-      class="w-full -green-500 rounded-md flex md:flex-row flex-col md:justify-between md:items-end justify-center items-center"
-    >
-      <div
-        class="md:w-[550px] w h-[100%] flex justify-center items-center flex-col gap-5"
-      >
-        <div
-          class="flex md:flex-row flex-col w-full justify-center items-center gap-5"
-        >
-          <fwb-input
-            v-model="name"
-            placeholder="enter your first name"
-            label="訂購人"
-            class="w-[250px]"
-          />
-          <fwb-input
-            v-model="name"
-            placeholder="enter your first name"
-            label="訂購人電話"
-            class="w-[250px]"
-          />
-        </div>
-        <div
-          class="flex md:flex-row flex-col w-full justify-center items-center gap-5"
-        >
-          <fwb-input
-            v-model="name"
-            placeholder="enter your first name"
-            label="郵遞區號"
-            class="w-[250px]"
-          />
-          <fwb-input
-            v-model="name"
-            placeholder="enter your first name"
-            label="寄送地址"
-            class="w-[250px]"
-          />
-        </div>
-      </div>
-      <table class="PaymentTable">
-        <tr>
-          <!-- <td colspan="4"></td> -->
-          <!-- <td>2</td>
-          <td>3</td>
-          <td>4</td> -->
-        </tr>
-        <tr>
-          <td colspan="4">商品總金額：35555</td>
-          <!-- <td>商品總金額：35555</td> -->
-          <!-- <td>35555</td> -->
-          <!-- <td>4c</td> -->
-        </tr>
-        <tr>
-          <td colspan="4">運費：60</td>
-          <!-- <td colspan="2">運費：60</td> -->
-          <!-- <td>3e</td>
-          <td>4f</td> -->
-        </tr>
-        <tr>
-          <td colspan="4">優惠折抵：50</td>
-          <!-- <td colspan="2">優惠折抵：50</td> -->
-          <!-- <td>3d</td>
-          <td>4j</td> -->
-        </tr>
-        <tr>
-          <td colspan="4">會員折抵:60</td>
-          <!-- <td colspan="2">會員折抵:60</td> -->
-          <!-- <td>3k</td> -->
-        </tr>
-        <tr>
-          <td colspan="4">總計：900</td>
-          <!-- <td colspan="1">總計：900</td> -->
-          <!-- <td>3t</td> -->
-          <!-- <td>4m</td> -->
-        </tr>
-      </table>
-    </div>
-    <div class="w-full -green-500 rounded-md flex justify-end items-end">
-      <div class="w-[250px] flex justify-center items-center">
-        <fwb-button
-          @click="closeModal"
-          class="w-[150px] h-[50px] bg-[#956bd0] -[4px]"
-        >
-          下訂單
-        </fwb-button>
-      </div>
-    </div>
-    <div class="couppon-modal !w-[300px]">
-      <fwb-modal v-if="isShowModal" @close="closeModal" class="">
-        <template #header>
-          <div class="flex items-center text-lg">選擇優惠券</div>
-        </template>
-        <template #body>
-          <div class="md:w-full w-[350px] !p-0">
-            <h2>運費優惠卷</h2>
-            <div
-              class="Coupons md:w-full w-[350px] relative"
-              v-for="item in Coupons"
-              :key="item.id"
-            >
-              <div class="ticket !border  h-[100px] flex gap-3 my-2">
-                <div
-                  class="title-box md:w-[450px] w-[300px] h-[98px] text-center flex justify-center items-center flex-col bg-[#3fbea7]"
-                >
-                  <i
-                    class="fa-solid fa-ticket md:text-7xl text-2xl text-[#055b46]"
-                  ></i>
-                  <h4 class="ticketTitle md:text-sm text-xs text-left">
-                    {{ item.description }}卷
-                  </h4>
+                <div class="text-right">
+                  <p class="text-sm font-semibold text-slate-900">
+                    NT$
+                    {{
+                      (parseFloat(item.itemPrice) * item.itemQuantity).toFixed(
+                        2
+                      )
+                    }}
+                  </p>
                 </div>
-                <div
-                  class="title-box w-full flex justify-center items-center flex-col bg-white"
-                ></div>
-                <fwb-radio
-                  @click="pickValue(item)"
-                  label=""
-                  name="list-radio"
-                  :value="item.code"
-                  class="flex justify-end items-center me-5"
-                />
               </div>
             </div>
           </div>
-        </template>
-        <template #footer>
-          <div class="md:w-full w-[350px] flex justify-end gap-5 -orange-500">
-            <fwb-button
+
+          <!-- 金額統計 -->
+          <div class="border-t border-slate-200 pt-4 space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600">商品總金額</span>
+              <span class="font-medium text-slate-900">NT$ 35,555</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600">運費</span>
+              <span class="font-medium text-slate-900">NT$ 60</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600">優惠折抵</span>
+              <span class="font-medium text-emerald-600">- NT$ 50</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-600">會員折抵</span>
+              <span class="font-medium text-emerald-600">- NT$ 60</span>
+            </div>
+            <div
+              class="flex justify-between text-lg font-bold border-t border-slate-200 pt-2 mt-2"
+            >
+              <span class="text-slate-900">總計</span>
+              <span class="text-amber-600">NT$ 35,505</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 訂購人資訊 -->
+    <div class="mt-6 bg-white border border-slate-200 rounded-lg p-6">
+      <h2 class="text-lg font-semibold text-slate-900 mb-4">訂購人資訊</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2"
+            >訂購人</label
+          >
+          <input
+            v-model="name"
+            type="text"
+            placeholder="請輸入姓名"
+            class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-amber-500 transition-colors"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2"
+            >訂購人電話</label
+          >
+          <input
+            v-model="phone"
+            type="tel"
+            placeholder="請輸入電話"
+            class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-amber-500 transition-colors"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2"
+            >郵遞區號</label
+          >
+          <input
+            v-model="zipCode"
+            type="text"
+            placeholder="請輸入郵遞區號"
+            class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-amber-500 transition-colors"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2"
+            >寄送地址</label
+          >
+          <input
+            v-model="address"
+            type="text"
+            placeholder="請輸入寄送地址"
+            class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-amber-500 transition-colors"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- 下訂單按鈕 -->
+    <div class="mt-6 flex justify-end">
+      <button
+        class="px-8 py-3 bg-amber-600 text-white text-base font-semibold rounded hover:bg-amber-500 transition-colors"
+      >
+        確認下訂單
+      </button>
+    </div>
+    <!-- 優惠券彈窗 -->
+    <Transition name="modal">
+      <div
+        v-if="isShowModal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+        @click.self="closeModal"
+      >
+        <div
+          class="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-hidden"
+        >
+          <!-- Header -->
+          <div
+            class="flex items-center justify-between p-6 border-b border-slate-200"
+          >
+            <h3 class="text-xl font-semibold text-slate-900">選擇優惠券</h3>
+            <button
               @click="closeModal"
-              class="w-[68px] h-[44px] bg-[#e5e2e2]"
+              class="text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+          </div>
+
+          <!-- Body -->
+          <div class="p-6 overflow-y-auto max-h-[60vh]">
+            <h4 class="text-sm font-semibold text-slate-700 mb-4">
+              可用優惠券
+            </h4>
+            <div class="space-y-3">
+              <label
+                v-for="item in Coupons"
+                :key="item.id"
+                class="flex items-center gap-4 p-4 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
+              >
+                <input
+                  type="radio"
+                  v-model="pickedCoupons"
+                  :value="item.code"
+                  name="coupon"
+                  class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+                  @change="pickValue(item)"
+                />
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <i class="fa-solid fa-ticket text-2xl text-emerald-600"></i>
+                    <span class="text-sm font-semibold text-slate-900">{{
+                      item.code
+                    }}</span>
+                  </div>
+                  <p class="text-sm text-slate-600">{{ item.description }}</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div
+            class="flex justify-end gap-3 p-6 border-t border-slate-200 bg-slate-50"
+          >
+            <button
+              @click="closeModal"
+              class="px-5 py-2 bg-slate-100 text-slate-700 text-sm font-medium rounded hover:bg-slate-200 transition-colors"
             >
               取消
-            </fwb-button>
-            <fwb-button
+            </button>
+            <button
               @click="closeModal"
-              class="w-[68px] h-[44px] bg-[#956bd0]"
+              class="px-5 py-2 bg-amber-600 text-white text-sm font-medium rounded hover:bg-amber-500 transition-colors"
             >
               確認
-            </fwb-button>
+            </button>
           </div>
-        </template>
-        {{ pickedCoupons }}
-      </fwb-modal>
-    </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <style scoped>
-/* button {
-  max-width: 68px;
-  max-height: 44px;
-   : 2px solid #e5e2e2 !important;
-} */
+/* Modal 淡入淡出動畫 */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active .bg-white,
+.modal-leave-active .bg-white {
+  transition: transform 0.3s ease;
+}
+
+.modal-enter-from .bg-white {
+  transform: scale(0.95);
+}
+
+.modal-leave-to .bg-white {
+  transform: scale(0.95);
+}
 </style>

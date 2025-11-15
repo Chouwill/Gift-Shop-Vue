@@ -36,24 +36,40 @@ nextPage();
 </script>
 
 <template>
-  <div class="carousel-box w-full">
-    <div class="text-center flex justify-center items-center gap-5 w-full my-4">
-      <h2 class="text-4xl">Look</h2>
-      <h2 class="text-4xl">PPC</h2>
-      <button @click="nextPage">下一頁</button>
-      <button @click="returnPage">上一頁</button>
+  <div class="w-full py-12 bg-slate-50">
+    <!-- 標題區 -->
+    <div class="flex justify-center items-center gap-6 mb-8">
+      <h2 class="text-4xl font-bold text-slate-900">Look</h2>
+      <h2 class="text-4xl font-bold text-slate-800">PPC</h2>
+
+      <!-- 控制按鈕 -->
+      <div class="flex gap-2 ml-4">
+        <button
+          @click="returnPage"
+          class="w-10 h-10 bg-slate-200 hover:bg-amber-100 rounded flex items-center justify-center transition-colors"
+        >
+          <i class="fa-solid fa-chevron-left text-slate-700"></i>
+        </button>
+        <button
+          @click="nextPage"
+          class="w-10 h-10 bg-slate-200 hover:bg-amber-100 rounded flex items-center justify-center transition-colors"
+        >
+          <i class="fa-solid fa-chevron-right text-slate-700"></i>
+        </button>
+      </div>
     </div>
 
-    <div class="carousel flex gap-4 w-full overflow-x-hidden">
+    <!-- 輪播區 -->
+    <div class="carousel flex gap-4 w-full overflow-x-hidden px-4">
       <div
-        class="md:w-[210px] md:h-[210px] w-full flex justify-center items-center flex-shrink-0"
+        class="w-[250px] h-[250px] flex-shrink-0 bg-white border border-slate-200 rounded-lg overflow-hidden hover:border-slate-300 transition-colors"
         v-for="item in computedItems"
         :key="item.id"
       >
         <img
-          class="md:w-[250px] md:h-[250px] w-[250px] h-[250px] object-cover first:ps-4 last:pe-4"
+          class="w-full h-full object-cover"
           :src="item.image_url"
-          alt=""
+          :alt="item.name"
         />
       </div>
     </div>
