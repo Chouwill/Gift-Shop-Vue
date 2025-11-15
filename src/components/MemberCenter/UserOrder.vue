@@ -85,124 +85,143 @@ const currentData = computedData; // 計算
 </script>
 
 <template>
-  <div class="profile-from flex flex-col !border h-[500px] gap-3">
-    <h2>訂單總覽</h2>
-
+  <div class="flex flex-col h-[500px] gap-6 overflow-y-auto">
+    <!-- 標題區 -->
     <div
-      class="order-card md:w-[100%] !border flex flex-col justify-center items-center gap-3"
+      class="flex items-center justify-between pb-4 border-b border-gray-200"
     >
+      <h2 class="text-2xl font-semibold text-gray-800">訂單總覽</h2>
+      <div class="text-sm text-gray-500">共 {{ orderLists.length }} 筆訂單</div>
+    </div>
+
+    <!-- 訂單卡片列表 -->
+    <div class="flex flex-col gap-4">
       <div
-        class="flex flex-col w-full items-center bg-blue-50 border-2 border-blue-400 rounded-lg shadow-xl md:flex-row md:max-w-xl hover:bg-blue-100 hover:shadow-2xl hover:border-blue-500 transition-all duration-300 dark:border-blue-600 dark:bg-gray-800 dark:hover:bg-gray-700"
+        class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 transition-colors duration-200 cursor-pointer"
         v-for="item in computedData"
-        :key="item.title"
+        :key="item.order_id"
+        @click="cardDetail = !cardDetail"
       >
-        <div
-          :class="[
-            'flex flex-row w-full flex-wrap border justify-between items-start p-4 leading-normal',
-            cardDetail ? 'h-50' : '',
-          ]"
-          @click="cardDetail = !cardDetail"
-        >
-          <div class="w-[50%] !border">
-            <h5
-              class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white"
-            >
-              訂單編號{{ item.order_id }}
-            </h5>
-            <h5
-              class="text-base mb-3 font-normal text-gray-700 dark:text-gray-400"
-            >
-              訂單金額:
-              {{ item.amount }}
-            </h5>
+        <!-- 訂單資訊頭部 -->
+        <div class="flex justify-between items-center p-5 bg-gray-50">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm text-gray-500">訂單編號</div>
+            <div class="text-base font-semibold text-gray-900">
+              {{ item.order_id }}
+            </div>
           </div>
-          <div class="pay-status !border w-[50%]">已完成</div>
-          <div class="w-full !border flex items-center justify-around">
-            <div
-              class="status-box md:w-[120px] md:h-[150px] gap-2 flex justify-center items-center flex-col"
-            >
-              <div
-                class="status !border-4 !border-green-500 md:w-[60px] md:h-[60px] flex justify-center items-center rounded-[100%]"
-              >
-                <i
-                  class="fa-solid fa-list md:text-3xl block text-green-500"
-                ></i>
-              </div>
-              <p class="text-xs">訂單已成立</p>
-              <div class="text-sm">{{ item.order_date.split("T")[0] }}</div>
+          <div class="flex flex-col gap-1 items-end">
+            <div class="text-sm text-gray-500">訂單金額</div>
+            <div class="text-lg font-semibold text-gray-900">
+              NT$ {{ item.amount.toLocaleString() }}
             </div>
+          </div>
+          <div
+            class="px-4 py-1.5 bg-green-500 text-white text-sm font-medium rounded"
+          >
+            已完成
+          </div>
+        </div>
+
+        <!-- 訂單狀態流程 -->
+        <div class="flex items-center justify-around p-6 bg-white">
+          <!-- 訂單已成立 -->
+          <div class="flex flex-col items-center gap-2 w-24">
             <div
-              class="status-box md:w-[120px] md:h-[150px] gap-2 flex justify-center items-center flex-col"
+              class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center"
             >
-              <div
-                class="status !border-4 !border-green-500 w-[45px] h-[45px] md:w-[60px] md:h-[60px] flex justify-center items-center rounded-[100%]"
-              >
-                <i
-                  class="fa-solid md:text-3xl text-2xl fa-money-bill-wave text-green-500"
-                ></i>
-              </div>
-              <p class="text-xs">付款資訊確認</p>
-              <div class="text-sm">{{ item.order_date.split("T")[0] }}</div>
+              <i class="fa-solid fa-list text-white text-xl"></i>
             </div>
-            <div
-              class="status-box md:w-[120px] md:h-[150px] gap-2 flex justify-center items-center flex-col"
-            >
-              <div
-                class="status !border-4 !border-green-500 md:w-[60px] md:h-[60px] flex justify-center items-center rounded-[100%]"
-              >
-                <i
-                  class="fa-solid fa-truck md:text-3xl block text-green-500"
-                ></i>
-              </div>
-              <p class="text-xs">訂單已出貨</p>
-              <div class="text-sm">{{ item.order_date.split("T")[0] }}</div>
+            <p class="text-xs text-gray-600 text-center font-medium">
+              訂單已成立
+            </p>
+            <div class="text-xs text-gray-400">
+              {{ item.order_date.split("T")[0] }}
             </div>
+          </div>
+
+          <!-- 連接線 -->
+          <div class="flex-1 h-0.5 bg-green-500 mx-2"></div>
+
+          <!-- 付款資訊確認 -->
+          <div class="flex flex-col items-center gap-2 w-24">
             <div
-              class="status-box md:w-[120px] md:h-[150px] gap-2 flex justify-center items-center flex-col"
+              class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center"
             >
-              <div
-                class="status !border-4 !border-green-500 md:w-[60px] md:h-[60px] flex justify-center items-center rounded-[100%]"
-              >
-                <i
-                  class="fa-solid fa-check md:text-3xl block text-green-500"
-                ></i>
-              </div>
-              <p class="text-xs">完成訂單</p>
-              <div class="text-sm">{{ item.order_date.split("T")[0] }}</div>
+              <i class="fa-solid fa-money-bill-wave text-white text-xl"></i>
+            </div>
+            <p class="text-xs text-gray-600 text-center font-medium">
+              付款確認
+            </p>
+            <div class="text-xs text-gray-400">
+              {{ item.order_date.split("T")[0] }}
+            </div>
+          </div>
+
+          <!-- 連接線 -->
+          <div class="flex-1 h-0.5 bg-green-500 mx-2"></div>
+
+          <!-- 訂單已出貨 -->
+          <div class="flex flex-col items-center gap-2 w-24">
+            <div
+              class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center"
+            >
+              <i class="fa-solid fa-truck text-white text-xl"></i>
+            </div>
+            <p class="text-xs text-gray-600 text-center font-medium">
+              訂單已出貨
+            </p>
+            <div class="text-xs text-gray-400">
+              {{ item.order_date.split("T")[0] }}
+            </div>
+          </div>
+
+          <!-- 連接線 -->
+          <div class="flex-1 h-0.5 bg-green-500 mx-2"></div>
+
+          <!-- 完成訂單 -->
+          <div class="flex flex-col items-center gap-2 w-24">
+            <div
+              class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center"
+            >
+              <i class="fa-solid fa-check text-white text-xl"></i>
+            </div>
+            <p class="text-xs text-gray-600 text-center font-medium">
+              完成訂單
+            </p>
+            <div class="text-xs text-gray-400">
+              {{ item.order_date.split("T")[0] }}
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="flex justify-center items-center">
-      <div class="page !border flex justify-center items-center">
-        <!-- Previous Button -->
-        <a
-          href="#"
-          class="flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          @click="returnPage"
-          v-if="hasPrevPage"
-        >
-          Previous
-        </a>
 
-        <div>{{ currentPage }}</div>
-        <!-- Next Button -->
-        <a
-          href="#"
-          class="flex items-center justify-center px-3 h-8 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          @click="nextPage"
-          v-if="hasNextPage"
-        >
-          Next
-        </a>
+    <!-- 分頁控制 -->
+    <div class="flex justify-center items-center gap-4 pt-4">
+      <button
+        class="px-5 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        @click="returnPage"
+        :disabled="!hasPrevPage"
+      >
+        上一頁
+      </button>
+
+      <div class="px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded">
+        {{ currentPage }} / {{ Math.ceil(orderLists.length / pageItems) }}
       </div>
+
+      <button
+        class="px-5 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        @click="nextPage"
+        :disabled="!hasNextPage"
+      >
+        下一頁
+      </button>
     </div>
   </div>
 </template>
 
-<style>
-.status-box {
-  border: 2px solid red !important;
-}
+<style scoped>
+/* 移除所有 debug border */
 </style>
