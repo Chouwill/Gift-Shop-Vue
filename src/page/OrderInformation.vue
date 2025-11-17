@@ -2,10 +2,24 @@
 import { ref, computed } from "vue";
 import { getCoupons } from "../api/method";
 
+import { useUserStore } from "../store/Auth.ts";
+const userPoint = localStorage.getItem("userPoint");
+
 const name = ref("");
 const phone = ref("");
 const zipCode = ref("");
 const address = ref("");
+// 配送資訊
+const deliveryInfo = ref({
+  // 超商付款
+  pickupPayment: 60,
+
+  // 郵寄
+  homeDelivery: 100,
+
+  // 快速配送
+  fastDelivery: 350,
+});
 
 const pickedPayment = ref("cash");
 const pickedShipping = ref("home");
@@ -38,32 +52,6 @@ async function getTickets() {
 }
 
 getTickets();
-
-const couponDescriptions = [
-  { code: "D65-7D", description: "全館 65 折，限時 7 天使用。" },
-  { code: "D75-7D", description: "全館 75 折，限時 7 天使用。" },
-  { code: "D80-7D", description: "全館 8 折優惠券，限時 7 天。" },
-  { code: "D85-7D", description: "全館 85 折優惠券，限時 7 天。" },
-  { code: "D90-7D", description: "全館 9 折優惠券，限時 7 天。" },
-  { code: "D95-7D", description: "全館 95 折優惠券，限時 7 天。" },
-  { code: "FS1000-30D", description: "滿 1000 元即享免運，使用期限 30 天。" },
-  { code: "FS500-14D", description: "滿 500 元免運費，使用期限 14 天。" },
-  { code: "SHIP60-7D", description: "可折抵運費 60 元，使用期限 7 天。" },
-  { code: "SHIP80-7D", description: "可折抵運費 80 元，使用期限 7 天。" },
-  { code: "FIX100-7D", description: "滿 600 元現折 100 元，使用期限 7 天。" },
-  {
-    code: "FIX200-14D",
-    description: "滿 1000 元現折 200 元，使用期限 14 天。",
-  },
-  { code: "BP100-14D", description: "贈送 100 點紅利點數，可用於下次消費。" },
-  { code: "BP200-14D", description: "贈送 200 點紅利點數，可用於下次消費。" },
-  { code: "BP300-30D", description: "贈送 300 點紅利點數，30 天內領取。" },
-  { code: "D88-3D", description: "限時 88 折券，使用期限 3 天。" },
-  { code: "D70-3D", description: "限時 7 折券，使用期限 3 天。" },
-  { code: "D95-1H", description: "95 折快閃券，有效時間僅 1 小時！" },
-  { code: "D99-1H", description: "99 折快閃券，限時 1 小時使用。" },
-  { code: "FS1500-60D", description: "滿 1500 元免運，使用期限 60 天。" },
-];
 
 function pickValue(value) {
   console.log("被選中", value);
@@ -127,32 +115,54 @@ const cartItems = [
           </h2>
           <div class="space-y-3">
             <label
-              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+              class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all"
+              :class="
+                pickedDiscount === 'points'
+                  ? 'border-amber-500 bg-amber-50'
+                  : ''
+              "
             >
               <input
                 type="radio"
                 v-model="pickedDiscount"
                 value="points"
                 name="discount"
-                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+                class="w-5 h-5 text-amber-600 focus:ring-amber-400 flex-shrink-0"
               />
-              <span class="text-sm font-medium text-slate-700"
-                >會員點數折抵</span
-              >
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-semibold text-slate-900"
+                    >會員點數折抵</span
+                  >
+                  <span
+                    class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-medium rounded"
+                    >可用 {{ userPoint }} 點</span
+                  >
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">每點折抵 NT$ 1</p>
+              </div>
             </label>
 
             <label
-              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+              class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all"
+              :class="
+                pickedDiscount === 'coupon'
+                  ? 'border-amber-500 bg-amber-50'
+                  : ''
+              "
+              @click="showModal"
             >
               <input
                 type="radio"
                 v-model="pickedDiscount"
                 value="coupon"
                 name="discount"
-                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
-                @click="showModal"
+                class="w-5 h-5 text-amber-600 focus:ring-amber-400 flex-shrink-0"
               />
-              <span class="text-sm font-medium text-slate-700">優惠券</span>
+              <div class="flex-1">
+                <span class="text-sm font-semibold text-slate-900">優惠券</span>
+                <p class="text-xs text-slate-500 mt-0.5">點擊選擇可用優惠券</p>
+              </div>
             </label>
           </div>
         </div>
@@ -164,31 +174,45 @@ const cartItems = [
           </h2>
           <div class="space-y-3">
             <label
-              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+              class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all"
+              :class="
+                pickedPayment === 'cash' ? 'border-amber-500 bg-amber-50' : ''
+              "
             >
               <input
                 type="radio"
                 v-model="pickedPayment"
                 value="cash"
                 name="payment"
-                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+                class="w-5 h-5 text-amber-600 focus:ring-amber-400 flex-shrink-0"
               />
-              <span class="text-sm font-medium text-slate-700">貨到付款</span>
+              <div class="flex-1">
+                <span class="text-sm font-semibold text-slate-900"
+                  >貨到付款</span
+                >
+                <p class="text-xs text-slate-500 mt-0.5">收到商品時付款</p>
+              </div>
             </label>
 
             <label
-              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+              class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all"
+              :class="
+                pickedPayment === 'credit' ? 'border-amber-500 bg-amber-50' : ''
+              "
             >
               <input
                 type="radio"
                 v-model="pickedPayment"
                 value="credit"
                 name="payment"
-                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+                class="w-5 h-5 text-amber-600 focus:ring-amber-400 flex-shrink-0"
               />
-              <span class="text-sm font-medium text-slate-700"
-                >信用卡線上付清</span
-              >
+              <div class="flex-1">
+                <span class="text-sm font-semibold text-slate-900"
+                  >信用卡線上付清</span
+                >
+                <p class="text-xs text-slate-500 mt-0.5">安全快速結帳</p>
+              </div>
             </label>
           </div>
         </div>
@@ -200,29 +224,83 @@ const cartItems = [
           </h2>
           <div class="space-y-3">
             <label
-              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+              class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all"
+              :class="
+                pickedShipping === 'home' ? 'border-amber-500 bg-amber-50' : ''
+              "
             >
               <input
                 type="radio"
                 v-model="pickedShipping"
                 value="home"
                 name="shipping"
-                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+                class="w-5 h-5 text-amber-600 focus:ring-amber-400 flex-shrink-0"
               />
-              <span class="text-sm font-medium text-slate-700">宅配到府</span>
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-semibold text-slate-900"
+                    >宅配到府</span
+                  >
+                  <span class="text-xs font-medium text-slate-600"
+                    >NT$ {{ deliveryInfo.homeDelivery }}</span
+                  >
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">3-5 個工作天送達</p>
+              </div>
             </label>
 
             <label
-              class="flex items-center gap-3 p-3 border border-slate-200 rounded cursor-pointer hover:bg-slate-50 transition-colors"
+              class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all"
+              :class="
+                pickedShipping === 'store' ? 'border-amber-500 bg-amber-50' : ''
+              "
             >
               <input
                 type="radio"
                 v-model="pickedShipping"
-                value="mail"
+                value="store"
                 name="shipping"
-                class="w-4 h-4 text-amber-600 focus:ring-amber-400"
+                class="w-5 h-5 text-amber-600 focus:ring-amber-400 flex-shrink-0"
               />
-              <span class="text-sm font-medium text-slate-700">郵寄</span>
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-semibold text-slate-900"
+                    >超商取貨付款</span
+                  >
+                  <span class="text-xs font-medium text-slate-600">NT$ 60</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">3-5 個工作天到店</p>
+              </div>
+            </label>
+
+            <label
+              class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all"
+              :class="
+                pickedShipping === 'fast' ? 'border-amber-500 bg-amber-50' : ''
+              "
+            >
+              <input
+                type="radio"
+                v-model="pickedShipping"
+                value="fast"
+                name="shipping"
+                class="w-5 h-5 text-amber-600 focus:ring-amber-400 flex-shrink-0"
+              />
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-semibold text-slate-900"
+                    >快速配送</span
+                  >
+                  <span class="text-xs font-medium text-slate-600"
+                    >NT$ {{ deliveryInfo.fastDelivery }}</span
+                  >
+                  <span
+                    class="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-medium rounded"
+                    >限時</span
+                  >
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">24 小時內送達</p>
+              </div>
             </label>
           </div>
         </div>
@@ -233,32 +311,33 @@ const cartItems = [
           <h2 class="text-lg font-semibold text-slate-900 mb-4">購物車明細</h2>
 
           <div class="max-h-[500px] overflow-y-auto mb-6">
-            <div class="space-y-4">
+            <div class="space-y-3">
               <div
                 v-for="item in cartItems"
                 :key="item.itemId"
-                class="flex gap-4 p-4 border border-slate-200 rounded-lg"
+                class="flex gap-4 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
               >
                 <div class="w-20 h-20 flex-shrink-0">
                   <img
                     :src="item.itemImage"
                     :alt="item.itemName"
-                    class="w-full h-full object-cover rounded"
+                    class="w-full h-full object-cover rounded border border-slate-200"
                   />
                 </div>
                 <div class="flex-1 min-w-0">
-                  <h3 class="text-sm font-medium text-slate-900 mb-1">
+                  <h3
+                    class="text-sm font-semibold text-slate-900 mb-1 line-clamp-2"
+                  >
                     {{ item.itemName }}
                   </h3>
-                  <p class="text-sm text-slate-600">
-                    數量: {{ item.itemQuantity }}
-                  </p>
-                  <p class="text-sm font-semibold text-slate-900 mt-1">
-                    NT$ {{ item.itemPrice }}
-                  </p>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm font-semibold text-slate-900">
+                  <div
+                    class="flex items-center gap-2 text-xs text-slate-600 mb-1"
+                  >
+                    <span>單價 NT$ {{ item.itemPrice }}</span>
+                    <span>×</span>
+                    <span>{{ item.itemQuantity }}</span>
+                  </div>
+                  <p class="text-sm font-bold text-amber-600">
                     NT$
                     {{
                       (parseFloat(item.itemPrice) * item.itemQuantity).toFixed(
@@ -272,28 +351,28 @@ const cartItems = [
           </div>
 
           <!-- 金額統計 -->
-          <div class="border-t border-slate-200 pt-4 space-y-2">
-            <div class="flex justify-between text-sm">
+          <div class="border-t-2 border-slate-200 pt-4 space-y-2">
+            <div class="flex justify-between items-center text-sm">
               <span class="text-slate-600">商品總金額</span>
-              <span class="font-medium text-slate-900">NT$ 35,555</span>
+              <span class="font-semibold text-slate-900">NT$ 35,555</span>
             </div>
-            <div class="flex justify-between text-sm">
+            <div class="flex justify-between items-center text-sm">
               <span class="text-slate-600">運費</span>
-              <span class="font-medium text-slate-900">NT$ 60</span>
+              <span class="font-semibold text-slate-900">NT$ 60</span>
             </div>
-            <div class="flex justify-between text-sm">
-              <span class="text-slate-600">優惠折抵</span>
-              <span class="font-medium text-emerald-600">- NT$ 50</span>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-emerald-600">優惠折抵</span>
+              <span class="font-semibold text-emerald-600">- NT$ 50</span>
             </div>
-            <div class="flex justify-between text-sm">
-              <span class="text-slate-600">會員折抵</span>
-              <span class="font-medium text-emerald-600">- NT$ 60</span>
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-emerald-600">會員折抵</span>
+              <span class="font-semibold text-emerald-600">- NT$ 60</span>
             </div>
             <div
-              class="flex justify-between text-lg font-bold border-t border-slate-200 pt-2 mt-2"
+              class="flex justify-between items-center p-3 bg-amber-50 rounded-lg border-2 border-amber-200 mt-3"
             >
-              <span class="text-slate-900">總計</span>
-              <span class="text-amber-600">NT$ 35,505</span>
+              <span class="text-base font-bold text-slate-900">應付總計</span>
+              <span class="text-xl font-bold text-amber-600">NT$ 35,505</span>
             </div>
           </div>
         </div>
@@ -352,9 +431,15 @@ const cartItems = [
     </div>
 
     <!-- 下訂單按鈕 -->
-    <div class="mt-6 flex justify-end">
+    <div
+      class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 p-6 bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-200 rounded-lg"
+    >
+      <div class="text-center sm:text-left">
+        <p class="text-sm text-slate-600">完成訂單後將為您保留商品</p>
+        <p class="text-xs text-slate-500 mt-1">請於 7 天內完成付款</p>
+      </div>
       <button
-        class="px-8 py-3 bg-amber-600 text-white text-base font-semibold rounded hover:bg-amber-500 transition-colors"
+        class="w-full sm:w-auto px-10 py-3.5 bg-amber-600 text-white text-base font-bold rounded-lg hover:bg-amber-500 active:scale-95 transition-all"
       >
         確認下訂單
       </button>
