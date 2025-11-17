@@ -312,7 +312,7 @@ const cartItems = [
             v-model="name"
             type="text"
             placeholder="請輸入姓名"
-            class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-amber-500 transition-colors"
+            class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
           />
         </div>
         <div>
@@ -323,7 +323,7 @@ const cartItems = [
             v-model="phone"
             type="tel"
             placeholder="請輸入電話"
-            class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-amber-500 transition-colors"
+            class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
           />
         </div>
         <div>
@@ -334,7 +334,7 @@ const cartItems = [
             v-model="zipCode"
             type="text"
             placeholder="請輸入郵遞區號"
-            class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-amber-500 transition-colors"
+            class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
           />
         </div>
         <div>
@@ -345,7 +345,7 @@ const cartItems = [
             v-model="address"
             type="text"
             placeholder="請輸入寄送地址"
-            class="w-full px-4 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-amber-500 transition-colors"
+            class="w-full px-4 py-2 bg-slate-50 border border-slate-300 rounded focus:outline-none focus:border-amber-500 focus:bg-white transition-all"
           />
         </div>
       </div>
