@@ -2,12 +2,18 @@ import { defineStore } from "pinia";
 import Cookies from "js-cookie";
 import { ref } from "vue";
 
-import { useLogin, useRegister, getUserPoints } from "../api/method";
+import {
+  useLogin,
+  useRegister,
+  getUserPoints,
+  getCoupons,
+} from "../api/method";
 
 export const useUserStore = defineStore("alerts", () => {
   const userData = ref(null);
   const userId = ref(null);
   const userPoint = ref(null);
+  const useCoupons = ref(null);
   async function onLogin(data: any) {
     try {
       const res = await useLogin(data);
@@ -49,8 +55,21 @@ export const useUserStore = defineStore("alerts", () => {
       console.log(e);
     }
   }
+  async function getCouponList(userId: any) {
+    try {
+      const res = await getCoupons(userId);
 
-  
+      console.log(res);
+
+      console.log(res.data.items);
+
+      useCoupons.value = res.data.items
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+
 
   async function onRegister(data: any) {
     try {
@@ -70,8 +89,10 @@ export const useUserStore = defineStore("alerts", () => {
     userData,
     userId,
     userPoint,
+    useCoupons,
     onLogin,
     onRegister,
     getPoint,
+    getCouponList
   };
 });
