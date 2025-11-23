@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 import {
   FwbButton,
   FwbModal,
@@ -12,14 +13,9 @@ import {
   FwbTableRow,
 } from "flowbite-vue";
 import { useCart } from "../../composables/useCart";
+import router from "@/router";
 
-const { cartList, addQuantity, deleteQuantity,clearCart } = useCart();
-
-
-
-
-
-
+const { cartList, addQuantity, deleteQuantity, clearCart } = useCart();
 
 const isShowModal = ref(false);
 
@@ -63,6 +59,14 @@ function showModal() {
 // }
 
 console.log("00000", cartList.value);
+
+function shoppingCheckout() {
+  console.log("0000");
+  router.push({ name: "Order" });
+
+  console.log("目前購物清單", cartList.value);
+  localStorage.setItem("shoppingList", JSON.stringify(cartList.value));
+}
 </script>
 
 <template>
@@ -93,7 +97,9 @@ console.log("00000", cartList.value);
               class="flex items-center gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200"
             >
               <!-- 商品圖片 -->
-              <div class="w-20 h-20 flex-shrink-0 bg-white rounded overflow-hidden">
+              <div
+                class="w-20 h-20 flex-shrink-0 bg-white rounded overflow-hidden"
+              >
                 <img
                   class="w-full h-full object-cover"
                   :src="item.image_url"
@@ -119,7 +125,9 @@ console.log("00000", cartList.value);
                 >
                   <i class="fa-solid fa-minus text-sm"></i>
                 </button>
-                <span class="text-sm font-medium text-slate-900 w-8 text-center">
+                <span
+                  class="text-sm font-medium text-slate-900 w-8 text-center"
+                >
                   {{ item.quantity }}
                 </span>
                 <button
@@ -151,7 +159,9 @@ console.log("00000", cartList.value);
       </template>
 
       <template #footer>
-        <div class="flex justify-between items-center px-6 py-4 bg-slate-50 border-t border-slate-200">
+        <div
+          class="flex justify-between items-center px-6 py-4 bg-slate-50 border-t border-slate-200"
+        >
           <button
             @click="clearCart"
             class="px-4 py-2 bg-slate-100 text-slate-700 text-sm font-medium rounded hover:bg-slate-200 transition-colors"
@@ -163,12 +173,18 @@ console.log("00000", cartList.value);
             <div class="text-right">
               <p class="text-sm text-slate-600">總計</p>
               <p class="text-xl font-bold text-slate-900">
-                NT$ {{ cartList.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString() }}
+                NT$
+                {{
+                  cartList
+                    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+                    .toLocaleString()
+                }}
               </p>
             </div>
 
             <button
               class="px-6 py-2.5 bg-amber-600 text-white text-sm font-medium rounded hover:bg-amber-500 transition-colors"
+              @click="shoppingCheckout"
             >
               前往結帳
             </button>
