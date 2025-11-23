@@ -9,6 +9,8 @@ const name = ref("");
 const phone = ref("");
 const zipCode = ref("");
 const address = ref("");
+
+const shoppingList = ref();
 // 配送資訊
 const deliveryInfo = ref({
   // 超商付款
@@ -52,6 +54,14 @@ async function getTickets() {
 }
 
 getTickets();
+
+function getShoppingList() {
+  shoppingList.value = JSON.parse(localStorage.getItem("shoppingList"));
+
+  console.log(shoppingList.value);
+}
+
+getShoppingList();
 
 function pickValue(value) {
   console.log("被選中", value);
@@ -313,13 +323,13 @@ const cartItems = [
           <div class="max-h-[500px] overflow-y-auto mb-6">
             <div class="space-y-3">
               <div
-                v-for="item in cartItems"
+                v-for="item in shoppingList"
                 :key="item.itemId"
                 class="flex gap-4 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
               >
                 <div class="w-20 h-20 flex-shrink-0">
                   <img
-                    :src="item.itemImage"
+                    :src="item.image_url"
                     :alt="item.itemName"
                     class="w-full h-full object-cover rounded border border-slate-200"
                   />
@@ -333,14 +343,14 @@ const cartItems = [
                   <div
                     class="flex items-center gap-2 text-xs text-slate-600 mb-1"
                   >
-                    <span>單價 NT$ {{ item.itemPrice }}</span>
+                    <span>單價 NT$ {{ item.price }}</span>
                     <span>×</span>
-                    <span>{{ item.itemQuantity }}</span>
+                    <span>{{ item.quantity }}</span>
                   </div>
                   <p class="text-sm font-bold text-amber-600">
                     NT$
                     {{
-                      (parseFloat(item.itemPrice) * item.itemQuantity).toFixed(
+                      (parseFloat(item.price) * item.quantity).toFixed(
                         2
                       )
                     }}
