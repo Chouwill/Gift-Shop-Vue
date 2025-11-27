@@ -1,21 +1,19 @@
-<script setup>
-
-
-
+<script setup lang="ts">
+import Header from "../components/Header.vue";
 </script>
 
 <template>
   <div class="container-layout w-full flex justify-center flex-col">
-
-
+    <Header />
   </div>
 </template>
 
 <style scoped>
-
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .page-enter-from {
