@@ -5,6 +5,11 @@ import Header from "../components/Header.vue";
 <template>
   <div class="container-layout w-full flex justify-center flex-col">
     <Header />
+    <div class="flex-1 relative">
+      <Transition name="page" mode="out-in">
+        <router-view />
+      </Transition>
+    </div>
   </div>
 </template>
 

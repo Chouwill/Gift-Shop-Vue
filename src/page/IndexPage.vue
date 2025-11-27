@@ -5,5 +5,6 @@ import HeroBanner from "@/components/IndexPage/HeroBanner.vue";
 <template>
   <div>
     <HeroBanner />
+   
   </div>
 </template>
