@@ -2,9 +2,9 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import { getProducts } from "@/api/method";
 
-const products = ref(null);
-
 export const useProductStore = defineStore("product", () => {
+  const products = ref(null);
+
   async function fetchProduct() {
     try {
       const res = await getProducts({});
