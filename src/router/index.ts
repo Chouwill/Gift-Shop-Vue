@@ -8,6 +8,11 @@ const router = createRouter({
       name: "IndexPage",
       component: () => import("@/page/IndexPage.vue"),
     },
+    {
+      path: "/ShoppingMall",
+      name: "ShoppingMall",
+      component: () => import("@/page/ShoppingMall.vue"),
+    },
   ],
 });
 
