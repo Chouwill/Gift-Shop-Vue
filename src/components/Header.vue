@@ -7,8 +7,8 @@
     >
       <div class="logo text-4xl font-bold">PPC</div>
 
-      <div class="border hidden"><a href="#">首頁</a></div>
-      <div class="border hidden"><a href="#">商城</a></div>
+      <div class="border hidden md:flex"><a href="#">首頁</a></div>
+      <div class="border hidden md:flex"><a href="#">商城</a></div>
     </div>
     <div
       class="center w-[90%] md:flex md:justify-center md:items-center absolute md:static top-[80px]"
