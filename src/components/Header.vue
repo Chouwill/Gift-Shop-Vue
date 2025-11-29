@@ -8,13 +8,16 @@
       <div class="logo text-4xl font-bold">PPC</div>
 
       <div class="border hidden md:flex"><a href="#">首頁</a></div>
-      <div class="border hidden md:flex"><a href="#">商城</a></div>
+      <!-- <div class="border hidden md:flex"><a href="#">商城</a></div> -->
+      <div class="border hidden md:flex">
+        <router-link to="/ShoppingMall"> 商城</router-link>
+      </div>
     </div>
     <div
       class="center w-[90%] md:flex md:justify-center md:items-center absolute md:static top-[80px]"
     >
-    <div class="flex justify-center items-center gap-2 md:w-[60%] border">
-      <div class=" w-[85%] !border">
+      <div class="flex justify-center items-center gap-2 md:w-[60%] border">
+        <div class="w-[85%] !border">
           <label class="input validator join-item">
             <svg
               class="h-[1em] opacity-50"

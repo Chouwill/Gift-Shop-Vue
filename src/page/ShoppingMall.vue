@@ -2,5 +2,7 @@
 
 
 <template>
-  <div></div>
+  <div>
+    商城
+  </div>
 </template>
