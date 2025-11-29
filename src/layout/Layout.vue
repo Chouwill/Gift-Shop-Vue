@@ -5,7 +5,7 @@ import Header from "../components/Header.vue";
 <template>
   <div class="container-layout w-full flex justify-center flex-col">
     <Header />
-    <div class="flex-1 relative">
+    <div class="flex-1 relative mt-17">
       <Transition name="page" mode="out-in">
         <router-view />
       </Transition>
