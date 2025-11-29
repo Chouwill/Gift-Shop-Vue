@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Header from "../components/Header.vue";
+
+import Cart from "@/components/ShoppingCart/Cart.vue";
 </script>
 
 <template>
@@ -9,6 +11,8 @@ import Header from "../components/Header.vue";
       <Transition name="page" mode="out-in">
         <router-view />
       </Transition>
+
+      <Cart />
     </div>
   </div>
 </template>
