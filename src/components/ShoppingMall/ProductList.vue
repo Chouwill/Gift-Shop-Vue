@@ -37,7 +37,7 @@ const productStore = useProductStore();
         </div>
 
         <button
-          class="btn flex !border bg-amber-600 hover:bg-amber-500 w-[188px] h-[40px] justify-center items-center gap-3"
+          class="btn flex  bg-amber-600 hover:bg-amber-500 w-[188px] h-[40px] justify-center items-center gap-3"
         @click="productStore.addCart(item)">
           <i class="fa-solid fa-cart-shopping text-white"></i>
           <h2 class="text-white">加入購物車</h2>
