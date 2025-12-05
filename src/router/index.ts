@@ -13,6 +13,11 @@ const router = createRouter({
       name: "ShoppingMall",
       component: () => import("@/page/ShoppingMall.vue"),
     },
+    {
+      path: "/MemberCenter",
+      name: "MemberCenter",
+      component: () => import("@/page/MemberCenterPage.vue"),
+    },
   ],
 });
 

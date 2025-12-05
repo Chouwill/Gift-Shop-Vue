@@ -45,12 +45,14 @@
     </div>
     <div class="right flex justify-center items-center gap-7 md:w-[200px]">
       <div class="md:flex justify-center items-center hidden">
-        <img
-          class="w-7 h-7"
-          src="../assset/icon/user-icon.svg"
-          alt="使用者會員中心"
-        />
-        會員
+        <router-link to="/MemberCenter">
+          <img
+            class="w-7 h-7"
+            src="../assset/icon/user-icon.svg"
+            alt="使用者會員中心"
+          />
+          <!-- 會員 -->
+        </router-link>
       </div>
       <div class="flex justify-center items-center gap-2">
         <img
