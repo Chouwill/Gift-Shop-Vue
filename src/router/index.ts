@@ -13,6 +13,11 @@ const router = createRouter({
       name: "ShoppingMall",
       component: () => import("@/page/ShoppingMall.vue"),
     },
+    {
+      path: "/OrderCheckout",
+      name: "OrderCheckout",
+      component: () => import("@/page/OrderCheckout.vue"),
+    },
   ],
 });
 
