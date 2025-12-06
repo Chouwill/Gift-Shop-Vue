@@ -48,7 +48,12 @@ const loginForm = reactive({
   password: "12345",
 });
 
-function onLogin() {
-  authStore.onLoginForm(loginForm);
+async function onLogin() {
+
+  const userId = await authStore.onLoginForm(loginForm);
+
+  authStore.fetchCoupons(userId);
+
+  // authStore.fetchCoupons(await authStore.onLoginForm(loginForm));
 }
 </script>
