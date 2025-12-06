@@ -13,6 +13,11 @@ const router = createRouter({
       name: "ShoppingMall",
       component: () => import("@/page/ShoppingMall.vue"),
     },
+    {
+      path: "/AuthForm",
+      name: "AuthForm",
+      component: () => import("@/page/AuthForm.vue"),
+    },
   ],
 });
 
