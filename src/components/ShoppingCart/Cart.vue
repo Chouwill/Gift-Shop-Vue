@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { useProductStore } from "@/stores/useCart";
-import { log } from "node:console";
+import { useRoute, useRouter } from "vue-router";
 
-const modalCart = ref(true);
+const router = useRouter();
+
 const productStore = useProductStore();
 productStore.fetchProduct();
 
@@ -12,8 +13,12 @@ const productTotal = computed(() => {
     console.log("sum累加值", sum);
     console.log("currentValue當前的值", currentValue);
     return sum + currentValue.price * currentValue.quantity;
-  },0);
+  }, 0);
 });
+
+function goCheckOut() {
+  router.push("/OrderCheckout");
+}
 </script>
 
 <template>
@@ -74,7 +79,7 @@ const productTotal = computed(() => {
 
               <h2 class="text-xl font-bold">NT${{ productTotal }}</h2>
             </div>
-            <button class="btn me-3 text-white bg-amber-600 hover:bg-amber-500">
+            <button class="btn me-3 text-white bg-amber-600 hover:bg-amber-500" @click="goCheckOut">
               前往結帳
             </button>
           </div>
