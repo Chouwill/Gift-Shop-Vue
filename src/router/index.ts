@@ -14,6 +14,16 @@ const router = createRouter({
       component: () => import("@/page/ShoppingMall.vue"),
     },
     {
+      path: "/OrderCheckout",
+      name: "OrderCheckout",
+      component: () => import("@/page/OrderCheckout.vue"),
+    },
+    {
+      path: "/AuthForm",
+      name: "AuthForm",
+      component: () => import("@/page/AuthForm.vue"),
+    },
+    {
       path: "/MemberCenter",
       name: "MemberCenter",
       component: () => import("@/page/MemberCenterPage.vue"),
