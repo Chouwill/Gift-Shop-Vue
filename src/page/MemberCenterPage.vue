@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 
 import MemberOverview from "@/components/MemberCenter/MemberOverview.vue";
 import OrderOverview from "@/components/MemberCenter/OrderOverview.vue";
-import CouponOverview from "@/components/MemberCenter/CouponOverview.vue";
+// import CouponOverview from "@/components/MemberCenter/CouponOverview.vue";
 
 const tabList = [
   {
@@ -14,10 +14,10 @@ const tabList = [
     key: "orderOverview",
     label: "訂單總覽",
   },
-  {
-    key: "couponOverview",
-    label: "優惠券總覽",
-  },
+  // {
+  //   key: "couponOverview",
+  //   label: "優惠券總覽",
+  // },
 ];
 
 /**
@@ -27,7 +27,7 @@ const tabList = [
 const tabMap = {
   memberOverview: MemberOverview,
   orderOverview: OrderOverview,
-  couponOverview: CouponOverview,
+  // couponOverview: CouponOverview,
 };
 
 /**
